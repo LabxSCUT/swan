@@ -1,0 +1,18 @@
+Package: swan
+Type: Package
+Title: Statistical Structrual Variant Analyzer (SWAN)
+Version: 1.0.0
+Author: Xia, Charlie
+Maintainer: Xia, Charlie
+        <li.xia@stanford.edu>
+Description: 
+  SWAN is a Statistical Structrual Variant Analyzer (SWAN) for structrual variant
+  calling based on next generation sequencing data and a joint log likelihood
+  scan statistic using mixed heterogenous marked Poisson process models.
+  BioCLite Depends: 
+License: Creative Commons BY-NC-SA
+Depends:   BH, RcppArmadillo, Rcpp, data.table, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo,
+           Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
+Suggests: Cairo, ggplot2, gridExtra, seqCBS
+RcppModules: hashmap_module, hashset_module, pairmap_module
+KeepSource: TRUE

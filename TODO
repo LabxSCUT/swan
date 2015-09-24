@@ -1,0 +1,12 @@
+chromosome spcecific resource estimates by coverage
+smart script to set chromosome specific queue name and queue resource 
+merge sclip_scan, sclip_call
+make sclip_events to load plain output.
+switch the order of spX and spY in swan_join, seqcbs_scan, sclip_call2 and modify swan_run to accommodate this
+retire sclip_scan and sclip_call by version 2
+need a better example in test
+augment swan_join region to have sv_start_chr and sv_end_chr
+update example to include a one sample analysis and a two sample analysis
+example region shall come from simply genomic regions and sved by SVforge
+bigd and disc should based on anchor.txt
+allow gapfile to be in .bed origin that differs from UCSC download

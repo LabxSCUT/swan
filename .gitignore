@@ -1,0 +1,11 @@
+.Rhistory
+.RData
+.DS_Store
+.Rproj.user
+.Rbuildignore
+*.bam
+*.bai
+*.fna
+*.fna.*
+*.fas
+*.fas.*

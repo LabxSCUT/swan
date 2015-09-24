@@ -1,0 +1,6 @@
+useDynLib(swan)
+exportPattern("^[[:alpha:]]+")
+exportPattern("^[^\\.]")
+import(Rcpp)
+import(IRanges)
+importMethodsFrom(IRanges, coerce)
