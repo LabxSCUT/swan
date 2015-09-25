@@ -40,11 +40,9 @@ BOOST_LIBS= ${BOOST_ROOT}/lib
 BOOST_INCLUDE= ${BOOST_ROOT}/include
 
 PKG_CXXFLAGS += -std=c++11 -fopenmp -I$(BOOST_INCLUDE) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
-#PKG_CXXFLAGS += -std=c++11 -fopenmp -I"$(BOOST_ROOT)/include" `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::CxxFlags()"` `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::CxxFlags()"`
-#PKG_CXXFLAGS += -fopenmp -I"$(BOOST_ROOT)/include" `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::CxxFlags()"`
 #b2 install --prefix=$HOME/usr threading=multi --layout=tagged
 PKG_LIBS += -L$(BOOST_LIBS) $(RCPP_LDFLAGS) -fopenmp -lgomp -lboost_regex-mt 
-if [ -a ${BOOST_ROOT}/lib/libboost_regex-mt.a ]; \
+if [ -a $(BOOST_LIBS)/libboost_regex-mt.a ]; \
 then \
   PKG_LIBS += -L$(BOOST_LIBS) $(RCPP_LDFLAGS) -fopenmp -lgomp -lboost_regex-mt ; \
 else \
@@ -53,7 +51,7 @@ fi
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
 PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a"
 PKG_LIBS += -lz
-#PKG_LIBS = `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e \"Rcpp:::LdFlags()\"` $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
 #
 .PHONY: all libs clean
 
