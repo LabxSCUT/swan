@@ -43,12 +43,9 @@ INSTALL
     # 'lgfortran' and 'lquadmath' may affect OS X, fix by:  
     sh> curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
     sh> sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
-    R> install.packages(pkgs=c("BH", "Cairo", "data.table", "digest", 
-    "ggplot2", "gridExtra", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", 
-    "seqCBS", "sets", "stringr", "zoo"))  # other CRAN packages 
+    R> install.packages(pkgs=c("BH", "data.table", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
-    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", 
-    "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
+    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
   
   **Install SWAN**
   
