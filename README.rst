@@ -51,7 +51,7 @@ INSTALL
   
   ::
 
-    R> devtools::install_bitbucket("charade/swan",dependencies=T,noCache=T) 
+    R> devtools::install_bitbucket("charade/swan",dependencies=T,clean=T) 
   
   Note the executables will be available from $R_LIBS_USER/library/swan/bin.
   User can export $SWAN_BIN=$R_LIBS_USER/library/swan/bin and add it to $PATH.
