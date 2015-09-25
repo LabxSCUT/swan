@@ -24,6 +24,8 @@
 ## done by a number of packages, but recommended only for more advanced users
 ## comfortable with autoconf and its related tools.
 
+CC = gcc
+CXX = g++
 DFLAGS = -D_FILE_OFFSET_BITS=64 -D_USE_KNETFILE
 BAMOBJ_0 = \
   bgzf.o kstring.o bam_aux.o bam.o bam_import.o sam.o bam_index.o	\
