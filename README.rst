@@ -32,7 +32,7 @@ INSTALL
   Assuming C++, Boost, R, devtools and Samtools are already properly installed; 
   $BOOST_ROOT properly set. 
 
-  [Install R Package Dependencies]
+  **Install R Package Dependencies**
   
   :: 
 
@@ -50,7 +50,7 @@ INSTALL
     R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", 
     "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
   
-  [Install SWAN]
+  **Install SWAN**
   
   ::
 
@@ -77,15 +77,17 @@ USAGE
 
   (2) Do a Sanity check for installation and learn single or paired sample analysis pipelines.
 
-  1. download the mock swan_test data package (approximately 603MB) from 
 
-  2. unzip it within this directory and you will see an example directory containing necessary mock data files for successful testing
 
   ::
+
+    # download the mock swan_test data package (approximately 603MB)
     $ wget http://meta.usc.edu/softs/swan/swan_test.tgz
+    # unzip it within this directory 
     $ tar -zxvf swan_test.tgz
-    $SWAN_BIN/single.sh all
-    $SWAN_BIN/paired.sh all
+    # you will see an example directory containing necessary mock data files for successful testing
+    $ SWAN_BIN/single.sh all
+    $ SWAN_BIN/paired.sh all
   
 WIKI
 --------
