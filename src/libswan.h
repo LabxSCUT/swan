@@ -39,6 +39,7 @@ typedef pair<pair<rd,rd>,int> rdp;     //rdp = <<rd1, rd2>, count>
 typedef pair<ull,pair<ull,bool> > evt; //event = <pos,<rdp_idx,in/out>>
 typedef vector<ull> clust;             //clust = {rdp1,rpd2,...}
 
+/*
 namespace std{ namespace tr1{
     template<typename T>
     struct hash< std::pair<T, T> >
@@ -54,6 +55,7 @@ namespace std{ namespace tr1{
         };
     };
 } };
+*/
 
 //typedef std::tr1::unordered_set<std::pair<int,int> > hashset;
 //typedef std::tr1::unordered_map<string, int> hashmap;
