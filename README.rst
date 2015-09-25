@@ -41,8 +41,8 @@ INSTALL
     # Some Rcpp packages have to to installed from source, otherwise cause 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
     # 'lgfortran' and 'lquadmath' may affect OS X, fix by:  
-    $ curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
-    $ sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
+    sh> curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
+    sh> sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
     R> install.packages(pkgs=c("BH", "Cairo", "data.table", "digest", 
     "ggplot2", "gridExtra", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", 
     "seqCBS", "sets", "stringr", "zoo"))  # other CRAN packages 
@@ -82,12 +82,12 @@ USAGE
   ::
 
     # download the mock swan_test data package (approximately 603MB)
-    $ wget http://meta.usc.edu/softs/swan/swan_test.tgz
+    sh> wget http://meta.usc.edu/softs/swan/swan_test.tgz
     # unzip it within this directory 
-    $ tar -zxvf swan_test.tgz
+    sh> tar -zxvf swan_test.tgz
     # you will see an example directory containing necessary mock data files for successful testing
-    $ SWAN_BIN/single.sh all
-    $ SWAN_BIN/paired.sh all
+    sh> $SWAN_BIN/single.sh all
+    sh> $SWAN_BIN/paired.sh all
   
 WIKI
 --------
