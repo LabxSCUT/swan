@@ -9,7 +9,7 @@ INTRODUCTION
   `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.ppt>`_
 
   Many of the installation questions are also answered in FAQ:
-  `faq <http://bitbucket.org/charade/swan/wiki/faq>`_
+  `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
 
   Currently the package works for Linux (tested for Ubuntu and CentOS) and Mac (with Macports and Homebrew).
   It might also work for Windows with Cygwin (not tested).
