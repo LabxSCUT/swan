@@ -7,6 +7,7 @@ INTRODUCTION
 
   There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
   `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.ppt>`_
+
   Many of the installation questions are also answered in FAQ:
   `faq <http://bitbucket.org/charade/swan/wiki/faq>`_
 
