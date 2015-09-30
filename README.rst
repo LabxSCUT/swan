@@ -4,94 +4,64 @@ README
 INTRODUCTION
 --------------
   Statistical Structural Variant scAN(S2VAN, SWAN)
-  Currently the package works for Linux (tested for Ubuntu and CentOS) and Mac (with Macports).
+
+  There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
+  `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.ppt>`_
+
+  Many of the installation questions are also answered in FAQ:
+  `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
+
+  Currently the package works for Linux (tested for Ubuntu and CentOS) and Mac (with Macports and Homebrew).
   It might also work for Windows with Cygwin (not tested).
-  SWAN documentation is on wiki and it is available:
+  Active SWAN documentation effort is on SWAN Wiki:
   `Wiki <http://bitbucket.org/charade/swan/wiki>`_
 
 DEPENDENCIES
 --------------
 
-  C++ build environment
-        e.g. build-essential and libstdc++ in Ubuntu 
+  GCC(>4.7)
+        through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
   Boost C++ Library
         `boost download <http://www.boost.org>`_
-  R(>=3.1)
+  R(>=3.2)
         `R download <http://www.r-project.org>`_
-  Samtools(>=0.19)
+  Samtools(>=1.2)
         `Samtools download <http://www.samtools.org>`_
-  R Libraries
-        ggplot2, gridExtra, stringr, data.table, Biostrings,
-        Rsamtools, optparse, GenomicRanges, multicore, BSgenome,
-        Rcpp, inline, IRanges, rbenchmark, RcppArmadillo, methods, zoo, robustbase
-  
-  To setup the dependencies, users may refer to the author's development document:
-  `Tutorial <http://dl.dropbox.com/u/35182955/development_environment.html>`_
+  CRAN R Libraries
+        RcppArmadillo (source), Rcpp (source);
+        BH, data.table, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
+  BioConductor R Libraries
+        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
 
 INSTALL
 -------------
   
-  1. [R Package Dependencies]
-  Before install SWAN please install all above dependencies required.
-  Add following R packages. To spot errors easily, better install the dependencies
-  one by one.
+  Assuming C++, Boost, R, devtools and Samtools are already properly installed; 
+  $BOOST_ROOT properly set. 
+
+  **Install R Package Dependencies**
   
   :: 
 
-    install.packages("Rcpp",type="source") #R packages
-    install.packages("RcppArmadillo",type="source")
-    install.packages("data.table",type="source")
-    install.packages("optparse",type="source")
-    install.packages("robustbase",type="source")
-    install.packages("BH",type="source")
-    install.packages("stringr",type="source")
-    install.packages("digest",type="source")
-    install.packages("gridExtra",type="source")
-    install.packages("sets",type="source")
-    install.packages("colorspace",type="source")
-    install.packages("plyr",type="source")
-    install.packages("hash",type="source")
-    install.packages("ggplot2",type="source") #you can ignore if not plotting with SWAN
-    install.packages("Cairo",type="source") #need install cairo-dev first in ubuntu, you can ignore if not plotting with SWAN
-    
-    source("http://bioconductor.org/biocLite.R") #BioCLite packages
-    biocLite("BiocUpgrade")
-    biocLite("BiocGenerics",type="source",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("seqCBS",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("Biobase",type="source",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("S4Vectors",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("IRanges",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("XVector",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("GenomicRanges",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("BSgenome",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("Biostrings",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
-    biocLite("Rsamtools",ask=F,suppressUpdates=F,suppressAutoUpdate=F)
+    # preset CRAN mirror to prevent interruption
+    R> local({r <- getOption("repos"); r["CRAN"] <- "http://cran.us.r-project.org"; options(repos=r)}) 
+    # Some Rcpp packages have to to installed from source, otherwise cause 'segfault'
+    R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
+    # 'lgfortran' and 'lquadmath' may affect OS X, fix by:  
+    sh> curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
+    sh> sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
+    R> install.packages(pkgs=c("BH", "data.table", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
+    R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
+    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
   
-  2. [User]
-  Download the latest master branch of SWAN from `master <https://bitbucket.org/charade/swan/downloads>`_.
-  select branches and download the master branch in either .gz, .zip or .bz format
-  unzip the archive to a folder say swan, create the ~/scripts folder.
-  set BOOST_HOME to be your /boost/path/ and install the swan package.
+  **Install SWAN**
   
   ::
 
-    > mkdir ~/scripts
-    > BOOST_HOME=/boost/path/ R CMD INSTALL swan --preclean
+    R> devtools::install_bitbucket("charade/swan",dependencies=T,clean=T) 
   
-  Now the executables will be available from ~/scripts
-
-  3. [Developer]
-  Download the latest test branch of SWAN from `devel <https://bitbucket.org/charade/swan/downloads>`_.
-  select branches and download the master branch in either .gz, .zip or .bz format
-  unzip the archive to a folder say swan, create the ~/scripts folder.
-  set BOOST_HOME to be your /boost/path/ and install the swan package
-  
-  ::
-
-    > git clone https://bitbucket.org/charade/swan.git
-    > git checkout testing
-    > mkdir ~/scripts
-    > BOOST_HOME=/boost/path/ R CMD INSTALL swan --preclean
+  Note the executables will be available from $R_LIBS_USER/library/swan/bin.
+  User can export $SWAN_BIN=$R_LIBS_USER/library/swan/bin and add it to $PATH.
 
 EXECUTABLES
 ------------
@@ -107,17 +77,21 @@ EXECUTABLES
 
 USAGE
 --------
-  (1) By default all above executables will be available from ~/scripts .
-  Use '-h' to read script-wise usage.
+  (1) Use '-h' to read script-wise usage. 
 
-  (2) Do a Sanity check for installation and learn single or paired sample analysis from toy examples.
-  require installatoin of SVEngine (http://bitbucket.org/charade/svengine).
+  (2) Do a Sanity check for installation and learn single or paired sample analysis pipelines.
+
+
 
   ::
 
-    cd test
-    ./single.sh all
-    ./paired.sh all
+    # download the mock swan_test data package (approximately 603MB)
+    sh> wget http://meta.usc.edu/softs/swan/swan_test.tgz
+    # unzip it within this directory 
+    sh> tar -zxvf swan_test.tgz
+    # you will see an example directory containing necessary mock data files for successful testing
+    sh> $SWAN_BIN/single.sh all
+    sh> $SWAN_BIN/paired.sh all
   
 WIKI
 --------
