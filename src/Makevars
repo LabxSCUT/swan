@@ -38,7 +38,6 @@ RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" 
 #ARMA_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::LdFlags()" ) #ARMA_LDFLAGS is not needed
 BOOST_LIBS= ${BOOST_ROOT}/lib
 BOOST_INCLUDE= ${BOOST_ROOT}/include
-
 PKG_CXXFLAGS += -std=c++11 -fopenmp -I$(BOOST_INCLUDE) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 #PKG_CXXFLAGS += -std=c++11 -fopenmp -I"$(BOOST_ROOT)/include" `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::CxxFlags()"` `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::CxxFlags()"`
 #PKG_CXXFLAGS += -fopenmp -I"$(BOOST_ROOT)/include" `$(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::CxxFlags()"`
