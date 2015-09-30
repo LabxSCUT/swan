@@ -4,9 +4,16 @@ README
 INTRODUCTION
 --------------
   Statistical Structural Variant scAN(S2VAN, SWAN)
-  Currently the package works for Linux (tested for Ubuntu and CentOS) and Mac (with Macports).
+
+  There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
+  `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.ppt>`_
+
+  Many of the installation questions are also answered in FAQ:
+  `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
+
+  Currently the package works for Linux (tested for Ubuntu and CentOS) and Mac (with Macports and Homebrew).
   It might also work for Windows with Cygwin (not tested).
-  SWAN documentation is on wiki and it is available:
+  Active SWAN documentation effort is on SWAN Wiki:
   `Wiki <http://bitbucket.org/charade/swan/wiki>`_
 
 DEPENDENCIES
