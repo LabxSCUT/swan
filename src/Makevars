@@ -42,7 +42,8 @@ RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" 
 
 BOOST_LIBS= $(BOOST_LIBRARY_DIR)
 BOOST_INCLUDE= $(BOOST_INCLUDE_DIR)
-BOOST_REGEX_LIB= $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "if(length(Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex-mt.*')))>0) { cat('boost_regex-mt') } else { cat('boost_regex') }" )
+BOOST_REGEX_LIB= $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "boost_regex_libs=Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex.*')); boost_regexmt_libs=Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex-mt.*')); if(length(boost_regex_libs>0)) { cat('boost_regex') } else if (length(boost_regexmt_libs>0)) { cat('boost_regex-mt') } else { cat('') }" )
+
 #b2 install --prefix=$HOME/usr threading=multi --layout=tagged
 
 PKG_CXXFLAGS += -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
