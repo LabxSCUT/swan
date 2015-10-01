@@ -24,8 +24,8 @@
 ## done by a number of packages, but recommended only for more advanced users
 ## comfortable with autoconf and its related tools.
 
-CC = gcc
-CXX = g++
+#indent has to be tab, otherwise cause separator error
+
 DFLAGS = -D_FILE_OFFSET_BITS=64 -D_USE_KNETFILE
 BAMOBJ_0 = \
   bgzf.o kstring.o bam_aux.o bam.o bam_import.o sam.o bam_index.o	\
@@ -40,16 +40,16 @@ ARMA_CXXFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::C
 RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" )
 #ARMA_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::LdFlags()" ) #ARMA_LDFLAGS is not needed
 
-BOOST_LIBS= $(BOOST_LIBRARY_DIR)
-BOOST_INCLUDE= $(BOOST_INCLUDE_DIR)
-BOOST_REGEX_LIB= $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "boost_regex_libs=Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex.*')); boost_regexmt_libs=Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex-mt.*')); if(length(boost_regex_libs>0)) { cat('boost_regex') } else if (length(boost_regexmt_libs>0)) { cat('boost_regex-mt') } else { cat('') }" )
 
+#BOOST_LIBS= $(BOOST_LIBRARY_DIR)
+#BOOST_INCLUDE= $(BOOST_INCLUDE_DIR)
+#BOOST_REGEX_LIB= $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "if(length(Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex-mt.*')))>0) { cat('boost_regex-mt') } else { cat('boost_regex') }" )
 #b2 install --prefix=$HOME/usr threading=multi --layout=tagged
 
 PKG_CXXFLAGS += -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 PKG_LIBS += -L$(BOOST_LIBS) $(RCPP_LDFLAGS) -l$(BOOST_REGEX_LIB) -fopenmp -lgomp 
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
-PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a"
+PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
 PKG_LIBS += -lz
 
 .PHONY: all libs clean
@@ -58,7 +58,7 @@ all: $(SHLIB)
 
 $(SHLIB): libs
 
-libs: libbam.a libbwa.a
+libs: libbam.a libbwa.a libboost_regex.a
 	mkdir -p "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
 	mkdir -p "${R_PACKAGE_DIR}/include/samtools"
 	cp samtools/*.h "${R_PACKAGE_DIR}/include/samtools/"
@@ -66,6 +66,11 @@ libs: libbam.a libbwa.a
 	mkdir -p "${R_PACKAGE_DIR}/include/bwa"
 	cp bwa/*.h "${R_PACKAGE_DIR}/include/bwa/"
 	cp libbwa.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
+	cp boost_tree/stage/lib/libboost_regex.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
+	cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
+
+libboost_regex.a: boost_tree/bootstrap.sh
+	./boost.build.sh
 
 libbam.a: $(BAMOBJ)
 	$(AR) -crus $@ $(BAMOBJ)
@@ -74,4 +79,10 @@ libbwa.a: $(BWAOBJ)
 	$(AR) -crus $@ $(BWAOBJ)
 
 clean:
-	rm -f $(BAMOBJ) $(BWAOBJ) *.a *.o *.so *.dll
+	rm -f $(BAMOBJ) $(BWAOBJ) *.a *.o *.so *.dll *.dylib
+	./boost.clean.sh
+
+#BOOST_BUILD_LOG = $(shell ./boost.build.sh)
+#$(info $$BOOST_BUILD_LOG is [${BOOST_BUILD_LOG}])
+#BOOST_CLEAN_LOG = $(shell ./boost.clean.sh)
+#$(info $$BOOST_CLEAN_LOG is [${BOOST_CLEAN_LOG}])
