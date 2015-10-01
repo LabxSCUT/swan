@@ -5,4 +5,4 @@
 
 wget http://meta.usc.edu/softs/swan/swan_test.tgz
 tar -zxvf swan_test.tgz
-($SWAN_BIN/paired.sh all && $SWAN_BIN/single.sh all) >all.log 2>&1 &
+($SWAN_BIN/paired.sh all && $SWAN_BIN/single.sh all) >all.log 2>&1
