@@ -45,7 +45,7 @@ RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" 
 #BOOST_REGEX_LIB= $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "if(length(Sys.glob(file.path(Sys.getenv('BOOST_LIBRARY_DIR'),'libboost_regex-mt.*')))>0) { cat('boost_regex-mt') } else { cat('boost_regex') }" )
 #b2 install --prefix=$HOME/usr threading=multi --layout=tagged
 
-PKG_CXXFLAGS += -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
+PKG_CXXFLAGS += -fPIC -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 PKG_LIBS += -L$(BOOST_LIBS) $(RCPP_LDFLAGS) -l$(BOOST_REGEX_LIB) -fopenmp -lgomp 
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
 PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
