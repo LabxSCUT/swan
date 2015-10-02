@@ -53,7 +53,7 @@ RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" 
 
 #INTEGRATE OPENMP
 PKG_CXXFLAGS += -fPIC -std=c++11 $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS) -fopenmp 
-PKG_LIBS += $(RCPP_LDFLAGS) -lgomp -Wl,gomp
+PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp #-Wl,gomp
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
 PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
 PKG_LIBS += -lz
