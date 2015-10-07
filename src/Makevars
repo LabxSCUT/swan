@@ -70,7 +70,7 @@ libs: libbam.a libbwa.a libboost_regex.a
 	cp boost_tree/stage/lib/libboost_regex.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
 	cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
 
-libboost_regex.a: boost_tree/bootstrap.sh
+libboost_regex.a:
 	./boost.build.sh
 
 libbam.a: $(BAMOBJ)
