@@ -41,7 +41,7 @@ for( i in seq_along(script_files) ){
 build_files <- c(build_files,test_scripts)
 
 bin_dest=Sys.getenv('SWAN_BIN')
-if(bin_dest=="") bin_dest <- file.path(Sys.getenv("R_LIBS_USER"),"swan","bin")
+if(bin_dest=="") bin_dest <- dirname(file.path(Sys.getenv("R_LIBS_USER"),"swan","bin"))
 dir.create(bin_dest, recursive = TRUE, showWarnings = FALSE)
 n=length(build_files)
 message(paste(rep("Installing",n), build_files, rep("to",n), rep(bin_dest,n), collapse="\n"))

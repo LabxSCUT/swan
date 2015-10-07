@@ -10,4 +10,12 @@ module config-cache {
   set "sparc-<target-os>darwin-<toolset-darwin:version>4.7.4-<toolset>darwin" : "false" ;
   set "x86-<target-os>darwin-<toolset-darwin:version>4.7.4-<toolset>darwin" : "true" ;
   set "has_icu builds-<address-model>64-<architecture>x86-<target-os>darwin-<toolset-darwin:version>4.7.4-<toolset>darwin" : "false" ;
+  set "32-bit-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "false" ;
+  set "64-bit-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "true" ;
+  set "arm-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "false" ;
+  set "mips1-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "false" ;
+  set "power-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "false" ;
+  set "sparc-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "false" ;
+  set "x86-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "true" ;
+  set "has_icu builds-<address-model>64-<architecture>x86-<target-os>linux-<toolset-gcc:version>4.4.7-<toolset>gcc" : "false" ;
 }
