@@ -1,12 +1,14 @@
 #!/usr/bin/env Rscript
 version="REPLACE_WITH_COMMIT_OR_VERSION"
 ####Externalities####
-suppressMessages(library(optparse))
-suppressMessages(library(GenomicRanges))
-suppressMessages(library(Rsamtools))
-suppressMessages(library(Biobase))
-suppressMessages(library(GenomeInfoDb))
-suppressMessages(library(swan))
+library(swan)
+for(p in c("optparse")) myrequire(p)
+for(p in c("Biobase","GenomicRanges","GenomeInfoDb","Rsamtools")) myrequire(p,repo="Bioc")
+#suppressMessages(library(optparse))
+#suppressMessages(library(GenomicRanges))
+#suppressMessages(library(Rsamtools))
+#suppressMessages(library(Biobase))
+#suppressMessages(library(GenomeInfoDb))
 
 #this has to come early than options because of option defaults
 #  tryCatch({

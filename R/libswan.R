@@ -1,21 +1,41 @@
 #TODO: cleanup code for paper submission
+myrequire = function(pkg, repo="CRAN", ...){
+  cat("requiring package", pkg, "\n")
+  tryCatch(library(pkg,character.only=T), error=function(e) {
+    print(e)
+    if(repo!="CRAN"){
+      source("http://bioconductor.org/biocLite.R")
+      biocLite(pkg,...)
+    } else {
+      install.packages(pkg,repo="http://cran.us.r-project.org",...)
+    }
+  })
+  tryCatch(library(pkg,character.only=T), error=function(e) {
+    print(e)
+    stop(pkg," was not installed and cannot install on the fly!\n")
+  })
+}
+
 #TODO: do documentation and fix cross-reference
 #TODO: to pass R CMD CHECK
 #suppressMessages(library(ggplot2))
 #suppressMessages(library(gridExtra))
 #suppressMessages(library(seqCBS))
-suppressMessages(library(hash))
-suppressMessages(library(sets))
-suppressMessages(library(plyr))
-suppressMessages(library(stringr))
-suppressMessages(library(data.table))
-suppressMessages(library(robustbase))
-suppressMessages(library(Rcpp))
-suppressMessages(library(RcppArmadillo))
-suppressMessages(library(Biostrings))
-suppressMessages(library(Rsamtools))
-suppressMessages(library(IRanges))
-suppressMessages(library(GenomicRanges))
+for(p in c("Rcpp","RcppArmadillo")) myrequire(p,type="source")
+for(p in c("hash","sets","plyr","stringr","data.table","robustbase")) myrequire(p)
+for(p in c("Biostrings","Rsamtools","IRanges","GenomicRanges")) myrequire(p,repo="Bioc")
+#suppressMessages(library(hash))
+#suppressMessages(library(sets))
+#suppressMessages(library(plyr))
+#suppressMessages(library(stringr))
+#suppressMessages(library(data.table))
+#suppressMessages(library(robustbase))
+#suppressMessages(library(Rcpp))
+#suppressMessages(library(RcppArmadillo))
+#suppressMessages(library(Biostrings))
+#suppressMessages(library(Rsamtools))
+#suppressMessages(library(IRanges))
+#suppressMessages(library(GenomicRanges))
 Rcpp::loadModule("pairmap_module", TRUE)
 #CODE: how to load an external module
 #Rcpp::loadModule("hashmap_module", TRUE) 
@@ -26,6 +46,7 @@ Rcpp::loadModule("pairmap_module", TRUE)
 #detach("package:swan", unload = TRUE)
 #library.dynam()
 #library.dynam.unload("swan", system.file(package = "swan"))
+
 
 #CODE: remove null items from list
 #lst[sapply(lst, is.null)] <- NULL

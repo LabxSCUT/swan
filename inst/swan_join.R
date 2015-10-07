@@ -1,14 +1,17 @@
 #!/usr/bin/env Rscript
 version="REPLACE_WITH_COMMIT_OR_VERSION"
-suppressMessages(library(optparse))
-suppressMessages(library(IRanges))
-suppressMessages(library(Rsamtools))
-suppressMessages(library(Biostrings))
-suppressMessages(library(digest))
-suppressMessages(library(robustbase))
-suppressMessages(library(Biobase))
-suppressMessages(library(plyr))
-suppressMessages(library(swan))
+
+library(swan)
+for(p in c("digest","plyr","robustbase","optparse")) myrequire(p)
+for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc")
+#suppressMessages(library(optparse))
+#suppressMessages(library(IRanges))
+#suppressMessages(library(Rsamtools))
+#suppressMessages(library(Biostrings))
+#suppressMessages(library(digest))
+#suppressMessages(library(robustbase))
+#suppressMessages(library(Biobase))
+#suppressMessages(library(plyr))
 
 #	tryCatch({
 #		source("~/setup/swan/R/libswan.R")

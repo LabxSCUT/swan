@@ -2,12 +2,14 @@
 version="REPLACE_WITH_COMMIT_OR_VERSION"
 #Rprof(filename="Rprof.out", line.profiling=TRUE) ##Eable to Profile
 #### Externalities ####
-suppressMessages(library(Biobase))
-suppressMessages(library(optparse))
-suppressMessages(library(GenomicRanges))
-suppressMessages(library(Rsamtools))
-suppressMessages(library(IRanges))
-suppressMessages(library(swan))
+library(swan)
+for(p in c("optparse")) myrequire(p)
+for(p in c("Biobase","GenomicRanges","Rsamtools","IRanges")) myrequire(p,repo="Bioc")
+#suppressMessages(library(Biobase))
+#suppressMessages(library(optparse))
+#suppressMessages(library(GenomicRanges))
+#suppressMessages(library(Rsamtools))
+#suppressMessages(library(IRanges))
 
 #	tryCatch({
 #    source("~/setup/swan/R/libswan.R")

@@ -19,13 +19,11 @@ INTRODUCTION
 DEPENDENCIES
 --------------
 
-  GCC(>4.7)
+  GCC(>=3.4)
         through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
-  Boost C++ Library
-        `boost download <http://www.boost.org>`_
-  R(>=3.2)
+  R(>=3.1)
         `R download <http://www.r-project.org>`_
-  Samtools(>=1.2)
+  Samtools(>=0.19)
         `Samtools download <http://www.samtools.org>`_
   CRAN R Libraries
         RcppArmadillo (source), Rcpp (source);
