@@ -1,13 +1,15 @@
 #!/usr/bin/env Rscript
 version="REPLACE_WITH_COMMIT_OR_VERSION"
 #### Externalities ####
-suppressMessages(library(Biobase))
-suppressMessages(library(optparse))
-suppressMessages(library(GenomicRanges))
-suppressMessages(library(Rsamtools))
-suppressMessages(library(parallel))
-suppressMessages(library(Biostrings))
-suppressMessages(library(swan))
+library(swan)
+for(p in c("optparse","parallel")) myrequire(p)
+for(p in c("GenomicRanges","Rsamtools","Biobase","Biostrings")) myrequire(p,repo="bioc")
+#suppressMessages(library(Biobase))
+#suppressMessages(library(optparse))
+#suppressMessages(library(GenomicRanges))
+#suppressMessages(library(Rsamtools))
+#suppressMessages(library(parallel))
+#suppressMessages(library(Biostrings))
 
 #  tryCatch({
 #    source("~/setup/swan/R/libswan.R")

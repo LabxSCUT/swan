@@ -12,11 +12,12 @@
 //#include <Rcpp.h> //Cause Error: Rcpp.h shouldn't be included, include RcppArmadillo.h
 //#include <tr1/unordered_map>
 //#include <tr1/unordered_set>
-#include <unordered_map>
-#include <unordered_set>
+//#include <unordered_map>
+//#include <unordered_set>
 //#include <boost/unordered_map.hpp>
 //#include <boost/math/common_factor.hpp>
 #include <boost/unordered_set.hpp>
+#include <boost/unordered_map.hpp>
 #include <boost/regex.hpp>
 //#include <regex>  //Cause Error: smatch[] not supported currently by GCC, use boost/regex
 //#include <boost/icl/interval_map.hpp>
@@ -59,8 +60,9 @@ namespace std{ namespace tr1{
 
 //typedef std::tr1::unordered_set<std::pair<int,int> > hashset;
 //typedef std::tr1::unordered_map<string, int> hashmap;
-typedef std::unordered_map<string, int> hashmap;
+//typedef std::unordered_map<string, int> hashmap;
 typedef boost::unordered_set<std::pair<int,int> > hashset; //use std::unordered_set cause error
+typedef boost::unordered_map<string, int> hashmap; //use std::unordered_set cause error
 typedef boost::regex regex;
 typedef boost::smatch smatch;
 //typedef std::regex regex; //TODO: until GCC fully implements regex

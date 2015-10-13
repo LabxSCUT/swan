@@ -51,9 +51,14 @@ RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" 
 #PKG_CXXFLAGS += -fPIC -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 #PKG_LIBS += $(RCPP_LDFLAGS) -l$(BOOST_REGEX_LIB) -fopenmp -lgomp 
 
-#INTEGRATE OPENMP
-PKG_CXXFLAGS += -fPIC -std=c++11 $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS) -fopenmp 
-PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp #-Wl,gomp
+#PKG_CXXFLAGS += -fPIC -std=c++11 $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS) -fopenmp 
+#PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp #-Wl,gomp
+#PKG_CXXFLAGS += -fPIC -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
+#PKG_CXXFLAGS += -fPIC -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
+#PKG_LIBS += -L$(BOOST_LIBS) $(RCPP_LDFLAGS) -l$(BOOST_REGEX_LIB) -fopenmp -lgomp 
+PKG_CXXFLAGS += -fPIC -fopenmp $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
+PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
+
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
 PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
 PKG_LIBS += -lz
@@ -75,7 +80,7 @@ libs: libbam.a libbwa.a libboost_regex.a
 	cp boost_tree/stage/lib/libboost_regex.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
 	cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
 
-libboost_regex.a: boost_tree/bootstrap.sh
+libboost_regex.a:
 	./boost.build.sh
 
 libbam.a: $(BAMOBJ)

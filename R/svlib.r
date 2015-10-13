@@ -1,5 +1,23 @@
-suppressMessages(library("Rsamtools"))
-suppressMessages(library("BSgenome"))
+myrequire = function(pkg, repo="CRAN", ...){
+  cat("requiring package", pkg, "\n")
+  tryCatch(library(pkg,character.only=T), error=function(e) {
+    print(e)
+    if(repo!="CRAN"){
+      source("http://bioconductor.org/biocLite.R")
+      biocLite(pkg,...)
+    } else {
+      install.packages(pkg,repo="http://cran.us.r-project.org",...)
+    }
+  })
+  tryCatch(library(pkg,character.only=T), error=function(e) {
+    print(e)
+    stop(pkg," was not installed and cannot install on the fly!\n")
+  })
+}
+
+for(p in c("Rsamtools","BSgenome")) myrequire(p,repo="Bioc")
+#suppressMessages(library("Rsamtools"))
+#suppressMessages(library("BSgenome"))
 #library("BSgenome.Hsapiens.UCSC.hg19")
 #library(cubature)
 
