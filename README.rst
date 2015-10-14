@@ -58,8 +58,22 @@ INSTALL
 
     R> devtools::install_bitbucket("charade/swan",dependencies=T,clean=T) 
   
-  Note the executables will be available from $R_LIBS_USER/library/swan/bin.
-  User can export $SWAN_BIN=$R_LIBS_USER/library/swan/bin and add it to $PATH.
+  Note by default the SWAN executables will be available from path: $R_LIBS_USER/library/swan.
+  However, the exact naming of the path is system and user specific and can only be determined at install time.
+  The path will show up in the final '#' surrounded banner looks like below:
+
+  ::
+    #####################################
+    #
+    #  Your SWAN Binaries can be found at:
+    #  /Users/charlie/Library/R/3.2/library/swan/bin
+    #  To use SWAN, set environment variable $SWAN_BIN to above path
+    #  And add $SWAN_BIN to your $PATH evironment
+    #
+    #####################################
+  
+  In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add $SWAN_BIN to $PATH.
+  The executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
 
 EXECUTABLES
 ------------
@@ -79,17 +93,9 @@ USAGE
 
   (2) Do a Sanity check for installation and learn single or paired sample analysis pipelines.
 
-
-
   ::
 
-    # download the mock swan_test data package (approximately 603MB)
-    sh> wget http://meta.usc.edu/softs/swan/swan_test.tgz
-    # unzip it within this directory 
-    sh> tar -zxvf swan_test.tgz
-    # you will see an example directory containing necessary mock data files for successful testing
-    sh> $SWAN_BIN/single.sh all
-    sh> $SWAN_BIN/paired.sh all
+    $SWAN_BIN/swan_test.sh
   
 WIKI
 --------
