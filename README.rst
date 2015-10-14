@@ -3,7 +3,7 @@ README
 
 INTRODUCTION
 --------------
-  Statistical Structural Variant scAN(S2VAN, SWAN)
+  Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
 
   There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
   `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.ppt>`_
