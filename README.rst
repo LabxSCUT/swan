@@ -63,6 +63,7 @@ INSTALL
   The path will show up in the final '#' surrounded banner looks like below:
 
   ::
+
     #####################################
     #
     #  Your SWAN Binaries can be found at:
