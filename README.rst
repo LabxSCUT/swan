@@ -27,15 +27,14 @@ DEPENDENCIES
         `Samtools download <http://www.samtools.org>`_
   CRAN R Libraries
         RcppArmadillo (source), Rcpp (source);
-        BH, data.table, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
+        BH, data.table, digest, devtools, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
   BioConductor R Libraries
         Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
 
 INSTALL
 -------------
   
-  Assuming C++, Boost, R, devtools and Samtools are already properly installed; 
-  $BOOST_ROOT properly set. 
+  Following installation process assumes: (1) C++, R, devtools and Samtools are already properly installed; (2) Correct libstdc++ is either in user's or system's $LD_LIBRARY_PATH.
 
   **Install R Package Dependencies**
   
