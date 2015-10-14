@@ -42,7 +42,7 @@ INSTALL
 
     # preset CRAN mirror to prevent interruption
     R> local({r <- getOption("repos"); r["CRAN"] <- "http://cran.us.r-project.org"; options(repos=r)}) 
-    # Some Rcpp packages have to to installed from source, otherwise cause 'segfault'
+    # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
     # 'lgfortran' and 'lquadmath' may affect OS X, fix by:  
     sh> curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
