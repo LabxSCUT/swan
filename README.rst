@@ -99,8 +99,7 @@ EXECUTABLES
 
 USAGE
 --------
-  (1) Use '-h' to read script-wise usage. 
-
+  Use '-h' to read script-wise usage. 
   
 WIKI
 --------
