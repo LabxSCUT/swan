@@ -90,7 +90,7 @@ INSTALL
   You can use  Ubuntu or CentOS virtual machines with SWAN pre-installed - easily deployable to cloud computing. 
   The virtual machine disk images can be found here:
   Ubuntu: http://meta.usc.edu/softs/vbox/Ubuntu_14_SWAN.vdi.gz;
-  CentOS: http://meta.usc.edu/softs/vbox/CentOS_7_SWAN.vdi.gz;
+  CentOS: http://meta.usc.edu/softs/vbox/CentOS_7_SWAN.vdi.gz.
   Oracle's free VirtualBox (https://www.virtualbox.org/) among other softwares can be used to load the images. 
   There are numerous how-to tutorials on Youtube, 
   for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0).
