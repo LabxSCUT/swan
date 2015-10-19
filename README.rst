@@ -76,6 +76,12 @@ INSTALL
     #####################################
   
   In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add this $SWAN_BIN to $PATH.
+  Now, do a Sanity check for installation and learn single or paired sample analysis pipelines.
+
+  ::
+    export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
+    $SWAN_BIN/swan_test.sh
+
   Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
 
 EXECUTABLES
@@ -94,11 +100,6 @@ USAGE
 --------
   (1) Use '-h' to read script-wise usage. 
 
-  (2) Do a Sanity check for installation and learn single or paired sample analysis pipelines.
-
-  ::
-
-    $SWAN_BIN/swan_test.sh
   
 WIKI
 --------
