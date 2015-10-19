@@ -58,7 +58,7 @@ INSTALL
 
     R> devtools::install_bitbucket("charade/swan",dependencies=T,clean=T) 
   
-  **Locate SWAN**
+  **Test SWAN**
 
   Note by default the SWAN executables will be available from path: $R_LIBS_USER/library/swan.
   However, the exact naming of the path is system and user specific and can only be determined at install time.
@@ -75,8 +75,8 @@ INSTALL
     #
     #####################################
   
-  In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add $SWAN_BIN to $PATH.
-  The executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
+  In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add this $SWAN_BIN to $PATH.
+  Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
 
 EXECUTABLES
 ------------
