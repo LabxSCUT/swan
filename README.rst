@@ -89,8 +89,10 @@ INSTALL
   Ubuntu: http://meta.usc.edu/softs/vbox/Ubuntu_14_SWAN.vdi.gz;
   CentOS: http://meta.usc.edu/softs/vbox/CentOS_7_SWAN.vdi.gz.
   Oracle's free VirtualBox (https://www.virtualbox.org/) among other softwares can be used to load the images. 
-  There are numerous how-to tutorials on Youtube, 
-  for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0).
+  There are numerous how-to tutorials on Youtube about how to import .vdi to VirtualBox, 
+  for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0). Once the virtual machine is running,
+  you can login with **account: user** and **password: user** and refer to the "README.rst" file on the desktop
+  to proceed. The "action.log" file also contains full commands that required to setup SWAN on this virtual machine. 
 
 EXECUTABLES
 ------------
