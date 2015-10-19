@@ -45,7 +45,7 @@ INSTALL
     R> local({r <- getOption("repos"); r["CRAN"] <- "http://cran.us.r-project.org"; options(repos=r)}) 
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
-    R> install.packages(pkgs=c("BH", "data.table", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
+    R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
     R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
   
