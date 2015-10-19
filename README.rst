@@ -82,7 +82,7 @@ INSTALL
 
   Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
 
-  **Use SWAN**
+  **Use SWAN Without Install**
   
   You can use  Ubuntu or CentOS virtual machines with SWAN pre-installed - easily deployable to cloud computing. 
   The virtual machine disk images can be found here:
