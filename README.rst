@@ -60,7 +60,7 @@ INSTALL
   
   **Test SWAN**
 
-  Note by default the SWAN executables will be available from path: $R_LIBS_USER/library/swan.
+  Note by default the SWAN executables will be available from path: $SWAN_BIN=$R_LIBS_USER/library/swan.
   However, the exact naming of the path is system and user specific and can only be determined at install time.
   The path will show up in the final '#' surrounded banner looks like below:
 
