@@ -79,6 +79,7 @@ INSTALL
   Now, do a Sanity check for installation and learn single or paired sample analysis pipelines.
 
   ::
+    
     export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
     $SWAN_BIN/swan_test.sh
 
