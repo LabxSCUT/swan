@@ -61,9 +61,12 @@ max_chr_len=3e+8
 bam_files=strsplit(cmd$args,",")[[1]]
 if(cmd$options$oprefix!="none") {
   oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
+} else if(cmd$options$mprefix!="none") {
+  oprefixs=strsplit(cmd$options$mprefix,",")[[1]]; #use libwise mpreifx
 } else {
+  cat("==Warn: using the same directory as bamfile for stat output, output_prefix=",gsub(".bam$","",bam_files),"\n")
   oprefixs=gsub(".bam$","",bam_files) #oprefixs=libwise statfiles, mprefix=merged statfiles
-} 
+}
 cat("==oprefixs:",oprefixs,"\n")
 if(cmd$options$mprefix=="none") {
   mprefix=lcPrefix(oprefixs)
@@ -71,7 +74,7 @@ if(cmd$options$mprefix=="none") {
   mprefix=cmd$options$mprefix
 } 
 cat("==mprefix:",mprefix,"\n")
-bam_tmps=paste(oprefixs,"stat.bam",sep=".")
+bam_tmps=paste(oprefixs,seq(oprefixs),"stat.bam",sep=".")
 cat("==bam_tmps:",bam_tmps,"\n")
 
 myseqinfo=function(bam_file){
