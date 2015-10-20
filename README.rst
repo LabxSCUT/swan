@@ -45,23 +45,22 @@ INSTALL
     R> local({r <- getOption("repos"); r["CRAN"] <- "http://cran.us.r-project.org"; options(repos=r)}) 
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
-    # 'lgfortran' and 'lquadmath' may affect OS X, fix by:  
-    sh> curl -O http://r.research.att.com/libs/gfortran-4.8.2-darwin13.tar.bz2
-    sh> sudo tar fvxz gfortran-4.8.2-darwin13.tar.bz2 -C /
-    R> install.packages(pkgs=c("BH", "data.table", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
+    # See FAQ for fix, if you have "-lgfortran" or "-lquadmath" not found problems from above commands
+    R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
-    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
+    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools"))   # other Bioconductor packages
   
   **Install SWAN**
   
   ::
 
+    R> library(devtools)
     R> devtools::install_bitbucket("charade/swan",dependencies=T,clean=T) 
   
-  **Locate SWAN**
+  **Test SWAN**
 
-  Note by default the SWAN executables will be available from path: $R_LIBS_USER/library/swan.
-  However, the exact naming of the path is system and user specific and can only be determined at install time.
+  Note by default the SWAN executables will be available from path: $SWAN_BIN=$R_LIBS_USER/library/swan.
+  However, the exact naming of the $R_LIBS_USER is system and user specific and can only be determined at install time.
   The path will show up in the final '#' surrounded banner looks like below:
 
   ::
@@ -75,8 +74,27 @@ INSTALL
     #
     #####################################
   
-  In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add $SWAN_BIN to $PATH.
-  The executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
+  In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add this $SWAN_BIN to $PATH.
+  Now, do a Sanity check for installation and learn single or paired sample analysis pipelines.
+
+  ::
+    
+    export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
+    $SWAN_BIN/swan_test.sh
+
+  Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
+
+  **Use SWAN (Without Install)**
+  
+  You can use  Ubuntu or CentOS virtual machines with SWAN pre-installed - easily deployable to cloud computing. 
+  The virtual machine disk images can be found here:
+  Ubuntu: http://meta.usc.edu/softs/vbox/Ubuntu_14_SWAN.vdi.gz;
+  CentOS: http://meta.usc.edu/softs/vbox/CentOS_7_SWAN.vdi.gz.
+  Oracle's free VirtualBox (https://www.virtualbox.org/) among other softwares can be used to load the images. 
+  There are numerous how-to tutorials on Youtube about how to import .vdi to VirtualBox, 
+  for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0). Once the virtual machine is running,
+  you can login with account: **user** and password: **user** and refer to the "README.rst" file on the desktop
+  to proceed. The "action.log" file also contains full commands that required to setup SWAN on the virtual machine. 
 
 EXECUTABLES
 ------------
@@ -92,13 +110,7 @@ EXECUTABLES
 
 USAGE
 --------
-  (1) Use '-h' to read script-wise usage. 
-
-  (2) Do a Sanity check for installation and learn single or paired sample analysis pipelines.
-
-  ::
-
-    $SWAN_BIN/swan_test.sh
+  Use '-h' to read script-wise usage. 
   
 WIKI
 --------
