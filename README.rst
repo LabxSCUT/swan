@@ -48,7 +48,7 @@ INSTALL
     # See FAQ for fix, if you have "-lgfortran" or "-lquadmath" not found problems from above commands
     R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
-    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools","S4Vectors"))   # other Bioconductor packages
+    R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools"))   # other Bioconductor packages
   
   **Install SWAN**
   
