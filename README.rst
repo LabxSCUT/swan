@@ -30,12 +30,14 @@ DEPENDENCIES
         RcppArmadillo (source), Rcpp (source);
         BH, data.table, digest, devtools, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
   BioConductor R Libraries
-        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
+        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
 INSTALL
 -------------
   
-  Following installation process assumes: (1) C++, R, devtools and Samtools are already properly installed; (2) Correct libstdc++ is either in user's or system's $LD_LIBRARY_PATH.
+  Following installation process assumes: 
+  (1) GCC(>4.3), R(>3.1), Samtools(>=0.19) are already properly installed; 
+  (2) Correct libstdc++ is either in user's or system's $LD_LIBRARY_PATH.
 
   **Install R Package Dependencies**
   
