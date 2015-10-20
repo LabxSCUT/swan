@@ -54,6 +54,7 @@ INSTALL
   
   ::
 
+    R> library(devtools)
     R> devtools::install_bitbucket("charade/swan",dependencies=T,clean=T) 
   
   **Test SWAN**
