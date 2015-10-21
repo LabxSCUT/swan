@@ -36,7 +36,7 @@ INSTALL
 -------------
   
   Following installation process assumes: 
-  (1) GCC(>4.3), R(>3.1), Samtools(>=0.19) are already properly installed; 
+  (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.19) are already properly installed; 
   (2) Correct libstdc++ is either in user's or system's $LD_LIBRARY_PATH.
 
   **Install R Package Dependencies**
