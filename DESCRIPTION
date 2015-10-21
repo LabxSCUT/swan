@@ -12,7 +12,7 @@ Description:
   Related packages  -- Cairo, ggplot2, gridExtra, seqCBS.
 License: Creative Commons BY-NC-SA
 Depends:   BH, RcppArmadillo, Rcpp, data.table, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo,
-           Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
+           Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
 LinkingTo:	BH, Rcpp, RcppArmadillo
 RcppModules: hashmap_module, hashset_module, pairmap_module
 KeepSource: TRUE

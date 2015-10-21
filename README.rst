@@ -28,9 +28,9 @@ DEPENDENCIES
         `Samtools download <http://www.samtools.org>`_
   CRAN R Libraries
         RcppArmadillo (source), Rcpp (source);
-        BH, data.table, digest, devtools, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
+        BH, data.table, devtools, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
   BioConductor R Libraries
-        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
+        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
 
 INSTALL
 -------------
