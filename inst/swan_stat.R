@@ -34,7 +34,7 @@ option_list2 <- list(
   make_option(c("-o", "--oprefix"), default="none",
               help="bam-wise stat output prefixs [default %default] "),
   make_option(c("-m", "--mprefix"), default="none",
-              help="merged stat output prefixs [default %default] "),
+              help="merged stat output prefixs, only one even for multilib input [default %default] "),
   make_option(c("-s", "--step"), type="integer", default=10,
               help="bin step size on histogram [default %default]"),
   make_option(c("-q", "--noQuiet"), action="store_true", default=FALSE,
@@ -62,7 +62,7 @@ bam_files=strsplit(cmd$args,",")[[1]]
 if(cmd$options$oprefix!="none") {
   oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
 } else if(cmd$options$mprefix!="none") {
-  oprefixs=strsplit(cmd$options$mprefix,",")[[1]]; #use libwise mpreifx
+  oprefixs=rep(cmd$options$mprefix,length(bam_files)); #use libwise mpreifx
 } else {
   cat("==Warn: using the same directory as bamfile for stat output, output_prefix=",gsub(".bam$","",bam_files),"\n")
   oprefixs=gsub(".bam$","",bam_files) #oprefixs=libwise statfiles, mprefix=merged statfiles
