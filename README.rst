@@ -43,8 +43,8 @@ INSTALL
   
   :: 
 
-    # preset CRAN mirror to prevent interruption
-    R> local({r <- getOption("repos"); r["CRAN"] <- "http://cran.us.r-project.org"; options(repos=r)}) 
+    # First disable slow Tk/Tcl prompts of mirrors
+    options(menu.graphics=FALSE)
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
     # See FAQ for fix, if you have "-lgfortran" or "-lquadmath" not found problems from above commands
