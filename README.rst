@@ -30,7 +30,7 @@ DEPENDENCIES
         RcppArmadillo (source), Rcpp (source);
         BH, data.table, devtools, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
   BioConductor R Libraries
-        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
+        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
 INSTALL
 -------------
@@ -43,13 +43,15 @@ INSTALL
   
   :: 
 
-    # preset CRAN mirror to prevent interruption
-    R> local({r <- getOption("repos"); r["CRAN"] <- "http://cran.us.r-project.org"; options(repos=r)}) 
+    # First disable slow Tk/Tcl prompts of mirrors
+    R> options(menu.graphics=FALSE)
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
     # See FAQ for fix, if you have "-lgfortran" or "-lquadmath" not found problems from above commands
     R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
+    R> biocLite("BiocUpgrade") #Upgrade your Bioc to latest version compatible with your R version
+    R> biocLite() #correct any error Bioc Installations, answer 'a' to the question; only needed if you have namespace unload error and biocValid shows error, see FAQ
     R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools"))   # other Bioconductor packages
   
   **Install SWAN**
@@ -97,6 +99,8 @@ INSTALL
   for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0). Once the virtual machine is running,
   you can login with account: **user** and password: **user** and refer to the "README.rst" file on the desktop
   to proceed. The "action.log" file also contains full commands that required to setup SWAN on the virtual machine. 
+  
+  Details regarding this **INSTALL** section can be also found in the PPT slides here: `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
 
 EXECUTABLES
 ------------

@@ -1,7 +1,7 @@
 Package: swan
 Type: Package
 Title: Statistical Structrual Variant Analyzer (SWAN)
-Version: 1.0.0
+Version: 0.3.0
 Author: Xia, Charlie
 Maintainer: Xia, Charlie
         <li.xia@stanford.edu>
