@@ -1156,7 +1156,7 @@ call_bigd=function(seqname,bigd_file,bigd_par,bigd_opt,swan_file=NULL,coverage=N
     sv_start=bigd_lst$lend
     sv_end=bigd_lst$rstart
     bigd_ranges=IRanges(start=pmin(sv_start,sv_end),end=pmax(sv_start,sv_end))
-    bigd_ovlap=IRanges::as.matrix(findOverlaps(bigd_ranges,bigd_ranges)) #query subject
+    bigd_ovlap=IRanges::as.matrix(IRanges::findOverlaps(bigd_ranges,bigd_ranges)) #query subject
     for(i in seq_len(nrow(bigd_ovlap))){ #assuming no tiling, if ovlap keep the small one
       if(bigd_ovlap[i,2]>bigd_ovlap[i,1]) ovlap_lst=c(ovlap_lst,bigd_ovlap[i,2])
     }
@@ -1217,7 +1217,7 @@ call_disc=function(seqname,disc_file,disc_par,disc_opt,swan_file=NULL,coverage=N
     sv_start=disc_lst$lstart
     sv_end=disc_lst$rend
     disc_ranges=IRanges(start=pmin(sv_start,sv_end),end=pmax(sv_start,sv_end))
-    disc_ovlap=IRanges::as.matrix(findOverlaps(disc_ranges,disc_ranges)) #query subject
+    disc_ovlap=IRanges::as.matrix(IRanges::findOverlaps(disc_ranges,disc_ranges)) #query subject
     for(i in seq_len(nrow(disc_ovlap))){ #assuming no tiling, if ovlap keep the small one
       if(disc_ovlap[i,2]>disc_ovlap[i,1]) ovlap_lst=c(ovlap_lst,disc_ovlap[i,2])
     }
@@ -1501,7 +1501,7 @@ ovlap_reg=function(reg_first){
     }
   first_span=GRanges(seqnames=first_chr,IRanges(start=first_start,end=first_end))
   second_span=GRanges(seqnames=second_chr,IRanges(start=second_start,end=second_end))
-  ovlap_mat=IRanges::as.matrix(findOverlaps(first_span,second_span))
+  ovlap_mat=IRanges::as.matrix(IRanges::findOverlaps(first_span,second_span))
   for(i in seq(nrow(ovlap_mat)))
     ovlap[[ovlap_mat[i,1]]]=c(ovlap[[ovlap_mat[i,1]]],ovlap_mat[i,2])
   ovlap
@@ -1531,8 +1531,8 @@ ovlap_tip=function(reg_first){
   first_end=GRanges(seqnames=first_end_chr,IRanges(start=first_end_lci,end=first_end_hci))
   second_start=GRanges(seqnames=second_start_chr,IRanges(start=second_start_lci,end=second_start_hci))
   second_end=GRanges(seqnames=second_end_chr,IRanges(start=second_end_lci,end=second_end_hci))
-  start_ovlap_mat=IRanges::as.matrix(findOverlaps(first_start,second_start))
-  end_ovlap_mat=IRanges::as.matrix(findOverlaps(first_end,second_end))
+  start_ovlap_mat=IRanges::as.matrix(IRanges::findOverlaps(first_start,second_start))
+  end_ovlap_mat=IRanges::as.matrix(IRanges::findOverlaps(first_end,second_end))
   for(i in seq(nrow(start_ovlap_mat)))
     start_ovlap[[start_ovlap_mat[i,1]]]=c(start_ovlap[[start_ovlap_mat[i,1]]],start_ovlap_mat[i,2])
   for(i in seq(nrow(end_ovlap_mat)))
@@ -4049,8 +4049,10 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
     block_nM_winW2=IRanges::as.matrix(countOverlaps(block_winW2,IRanges(start=start(rMc),width=1))) #negative ends in W
     #fix lW term, r increase sig decrease; w increase sig decrease; use small r and w!!! 
     block_lW_term = block_winWlam*mixing_rate + (block_nP_winW2+block_nM_winW2)*log(1-mixing_rate)
-    block_winW_rPb=IRanges::as.matrix(findOverlaps_within(block_winW,rPbi)) #crossing pair, doesn't mean corssing
-    block_winZ_rPb=IRanges::as.matrix(findOverlaps_within(block_winZ,rPbi)) #crossing pair, doesn't mean corssing
+    #block_winW_rPb=IRanges::as.matrix(findOverlaps_within(block_winW,rPbi)) #crossing pair, doesn't mean corssing
+    #block_winZ_rPb=IRanges::as.matrix(findOverlaps_within(block_winZ,rPbi)) #crossing pair, doesn't mean corssing
+    block_winW_rPb=IRanges::as.matrix(IRanges::findOverlaps(block_winW,rPbi,type="within")) #find crossing pair
+    block_winZ_rPb=IRanges::as.matrix(IRanges::findOverlaps(block_winZ,rPbi,type="within")) #find crossing pair
     #rPbl=IRanges(start=start(rPbi),width=1); 
     #rPbr=IRanges(start=pmax(1,end(rPbi)-RL),width=1) # left/right end points of rPbi
     #block_rPbl_winDl=IRanges::as.matrix(findOverlaps_within(rPbl,block_winDl))
@@ -4064,10 +4066,14 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
     #block_winZ_rPb=block_winZ_rPb[,c(2,1)] #switch column to the right order
     #stopifnot(nrow(unique(block_winC_rPb))==nrow(block_winC_rPb)) #That says everything duplicated is only twice
     #stopifnot(nrow(unique(block_winZ_rPb))==nrow(block_winZ_rPb)) #That says everything duplicated is only twice
-    block_rSr_winDl=IRanges::as.matrix(findOverlaps_within(rSr,block_winDl)) #sc-ends in D+, q <-> sbj
-    block_rSl_winDr=IRanges::as.matrix(findOverlaps_within(rSl,block_winDr)) #sc-ends in D-
-    block_rHr_winDr=IRanges::as.matrix(findOverlaps_within(rHr,block_winDr)) #mh-ends in D+
-    block_rHl_winDl=IRanges::as.matrix(findOverlaps_within(rHl,block_winDl)) #mh-ends in D-
+    #block_rSr_winDl=IRanges::as.matrix(findOverlaps_within(rSr,block_winDl)) #sc-ends in D+, q <-> sbj
+    #block_rSl_winDr=IRanges::as.matrix(findOverlaps_within(rSl,block_winDr)) #sc-ends in D-
+    #block_rHr_winDr=IRanges::as.matrix(findOverlaps_within(rHr,block_winDr)) #mh-ends in D+
+    #block_rHl_winDl=IRanges::as.matrix(findOverlaps_within(rHl,block_winDl)) #mh-ends in D-
+    block_rSr_winDl=IRanges::as.matrix(findOverlaps_within(rSr,block_winDl,type="within")) #sc-ends in D+, q <-> sbj
+    block_rSl_winDr=IRanges::as.matrix(findOverlaps_within(rSl,block_winDr,type="within")) #sc-ends in D-
+    block_rHr_winDr=IRanges::as.matrix(findOverlaps_within(rHr,block_winDr,type="within")) #mh-ends in D+
+    block_rHl_winDl=IRanges::as.matrix(findOverlaps_within(rHl,block_winDl,type="within")) #mh-ends in D-
     #need tryCatch here; give all zeros if error
     block_Cd_term=tryCatch({
         lC_omp(block_winW_rPb,width(rPbi),fyR,block_w_end-block_w_start+1,mixing_rate)
