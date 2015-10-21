@@ -99,6 +99,8 @@ INSTALL
   for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0). Once the virtual machine is running,
   you can login with account: **user** and password: **user** and refer to the "README.rst" file on the desktop
   to proceed. The "action.log" file also contains full commands that required to setup SWAN on the virtual machine. 
+  
+  Details regarding this **INSTALL** section can be also found in the PPT slides here: `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
 
 EXECUTABLES
 ------------
