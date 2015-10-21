@@ -4070,10 +4070,10 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
     #block_rSl_winDr=IRanges::as.matrix(findOverlaps_within(rSl,block_winDr)) #sc-ends in D-
     #block_rHr_winDr=IRanges::as.matrix(findOverlaps_within(rHr,block_winDr)) #mh-ends in D+
     #block_rHl_winDl=IRanges::as.matrix(findOverlaps_within(rHl,block_winDl)) #mh-ends in D-
-    block_rSr_winDl=IRanges::as.matrix(findOverlaps_within(rSr,block_winDl,type="within")) #sc-ends in D+, q <-> sbj
-    block_rSl_winDr=IRanges::as.matrix(findOverlaps_within(rSl,block_winDr,type="within")) #sc-ends in D-
-    block_rHr_winDr=IRanges::as.matrix(findOverlaps_within(rHr,block_winDr,type="within")) #mh-ends in D+
-    block_rHl_winDl=IRanges::as.matrix(findOverlaps_within(rHl,block_winDl,type="within")) #mh-ends in D-
+    block_rSr_winDl=IRanges::as.matrix(IRanges::findOverlaps(rSr,block_winDl,type="within")) #sc-ends in D+, q <-> sbj
+    block_rSl_winDr=IRanges::as.matrix(IRanges::findOverlaps(rSl,block_winDr,type="within")) #sc-ends in D-
+    block_rHr_winDr=IRanges::as.matrix(IRanges::findOverlaps(rHr,block_winDr,type="within")) #mh-ends in D+
+    block_rHl_winDl=IRanges::as.matrix(IRanges::findOverlaps(rHl,block_winDl,type="within")) #mh-ends in D-
     #need tryCatch here; give all zeros if error
     block_Cd_term=tryCatch({
         lC_omp(block_winW_rPb,width(rPbi),fyR,block_w_end-block_w_start+1,mixing_rate)
