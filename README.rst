@@ -51,6 +51,8 @@ INSTALL
     R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
     R> biocLite("BiocUpgrade") #Upgrade your Bioc to latest version compatible with your R version
+    R> biocValid() #check if your Bioc installations are valid
+    R> biocLite() #correct any error Bioc Installations, answer 'a' to the question
     R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools"))   # other Bioconductor packages
   
   **Install SWAN**
