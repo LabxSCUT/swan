@@ -119,8 +119,8 @@ for(ni in seq_along(bam_files)){
   frac=min(yield/nreads,1)
   cat("chr_name:", chrname,"\n")
   cat("chr_len:", chr_length,"\n")
-  cat(sprintf("samtools view -bh -s %f %s >%s",frac,bam_file,bam_tmp),"\n")
-  system(sprintf("samtools view -bh -s %f %s >%s",frac,bam_file,bam_tmp)) 
+  cat(sprintf("samtools view -bh -s %f %s >%s",-(frac+1),bam_file,bam_tmp),"\n") #1.75 not working, -1.75 will work
+  system(sprintf("samtools view -bh -s %f %s >%s",-(frac+1),bam_file,bam_tmp))   #most likely samtools bug
   cat(sprintf("samtools index %s",bam_tmp),"\n") 
   system(sprintf("samtools index %s",bam_tmp)) 
   bam_sample=BamFile(bam_tmp) #TODO: significant time spend here, reduce
