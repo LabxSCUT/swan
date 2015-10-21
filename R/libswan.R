@@ -1,7 +1,7 @@
 #TODO: cleanup code for paper submission
 myrequire = function(pkg, repo="CRAN", ...){
   cat("requiring package", pkg, "\n")
-  tryCatch(library(pkg,character.only=T), error=function(e) {
+  tryCatch(suppressMessages(library(pkg,character.only=T)), error=function(e) {
     print(e)
     if(repo!="CRAN"){
       source("http://bioconductor.org/biocLite.R")
@@ -10,7 +10,7 @@ myrequire = function(pkg, repo="CRAN", ...){
       install.packages(pkg,repo="http://cran.us.r-project.org",...)
     }
   })
-  tryCatch(library(pkg,character.only=T), error=function(e) {
+  tryCatch(suppressMessages(library(pkg,character.only=T)), error=function(e) {
     print(e)
     stop(pkg," was not installed and cannot install on the fly!\n")
   })
