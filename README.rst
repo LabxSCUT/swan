@@ -30,7 +30,7 @@ DEPENDENCIES
         RcppArmadillo (source), Rcpp (source);
         BH, data.table, devtools, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
   BioConductor R Libraries
-        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools, S4Vectors
+        Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
 INSTALL
 -------------
