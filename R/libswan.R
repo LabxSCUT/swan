@@ -3149,7 +3149,7 @@ countOverlaps_omp = function(win_intvl, read_intvl){
   return(overlapCount)
 }
 
-findOverlaps_within_old = function(qry_intvl, sbj_intvl){ #find qry_intvl(query) complete within sbj_intvl(subject)
+findOverlaps_within = function(qry_intvl, sbj_intvl){ #find qry_intvl(query) complete within sbj_intvl(subject)
   result=IRanges::findOverlaps(qry_intvl,sbj_intvl,type="within")
   #IRanges::.IntervalTreeCall(subject, "overlap_all", query, query_ord) #query[query_ord] must be sorted  
   #sbj_tree=IntervalTree(sbj_intvl)
@@ -3165,7 +3165,7 @@ findOverlaps_within_old = function(qry_intvl, sbj_intvl){ #find qry_intvl(query)
   return(result)
 }
 
-findOverlaps_within = function(qry_intvl, sbj_intvl){ #find qry_intvl(query) complete within sbj_intvl(subject)
+findOverlaps_within_old = function(qry_intvl, sbj_intvl){ #find qry_intvl(query) complete within sbj_intvl(subject)
   #IRanges::.IntervalTreeCall(subject, "overlap_all", query, query_ord) #query[query_ord] must be sorted  
   sbj_tree=IntervalTree(sbj_intvl)
   result = .Call("IntegerIntervalTree_overlap_all", sbj_tree@ptr, qry_intvl, seq_along(qry_intvl), PACKAGE="IRanges") 
