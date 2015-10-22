@@ -83,8 +83,8 @@ INSTALL
 
   ::
     
-    export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
-    $SWAN_BIN/swan_test.sh
+    sh> export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
+    sh> $SWAN_BIN/swan_test.sh
 
   Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
 
