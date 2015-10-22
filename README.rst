@@ -47,11 +47,11 @@ INSTALL
     R> options(menu.graphics=FALSE)
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
-    # See FAQ for fix, if you have "-lgfortran" or "-lquadmath" not found problems from above commands
+    # now if you have "-lgfortran" or "-lquadmath" not found problems from above commands, please see entry in FAQ for fix 
     R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
     R> biocLite("BiocUpgrade") #Upgrade your Bioc to latest version compatible with your R version
-    # now if you have "Error in unloadNamespace(package)" after "preparing package for lazy loading", please see entry in FAQ
+    # now if you have "Error in unloadNamespace(package)" after "preparing package for lazy loading", please see entry in FAQ for fix
     R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools"))   # other Bioconductor packages
   
   **Install SWAN**
