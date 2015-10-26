@@ -47,7 +47,7 @@ INSTALL
     R> options(menu.graphics=FALSE)
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
-    # now if you have "-lgfortran" or "-lquadmath" not found problems from above commands, please see entry in FAQ for fix 
+    # If you have "-lgfortran" or "-lquadmath" not found problems from above commands, please see entry in FAQ for fix. It mostly affects Ubuntu<=12, where the libgfortran link is often broken. 
     R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
     R> biocLite("BiocUpgrade") #Upgrade your Bioc to latest version compatible with your R version
