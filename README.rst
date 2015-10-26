@@ -52,6 +52,7 @@ INSTALL
     R> biocLite("BiocUpgrade") #Upgrade your Bioc to latest version compatible with your R version
     # now if you have "Error in unloadNamespace(package)" after "preparing package for lazy loading", please see entry in FAQ for fix. It is most likely R sessions haven't finished updating packages, try reinstall SWAN with a new Shell and R session some time later and it will self correct.
     R> biocLite(pkgs=c("Biobase", "Biostrings", "BSgenome", "GenomeInfoDb", "GenomicRanges", "IRanges", "Rsamtools"))   # other Bioconductor packages
+    # now if you see warnings or errors during installation of any above packages, try the above two steps again and it usually self resolves.
   
   **Install SWAN**
   
