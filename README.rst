@@ -44,7 +44,7 @@ INSTALL
 
     # First disable slow Tk/Tcl prompts of mirrors
     R> options(menu.graphics=FALSE)
-    # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
+    # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault', if you do run into it see FAQ
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
     # If you have "-lgfortran" or "-lquadmath" not found problems from above commands, please see entry in FAQ for fix. It mostly affects Ubuntu<=12, where the libgfortran link is often broken. 
     R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
