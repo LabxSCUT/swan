@@ -59,11 +59,10 @@ chrname=cmd$options$chrname
 what=c("pos","mpos","isize","strand","qwidth","cigar","qname","flag")
 max_chr_len=3e+8
 bam_files=strsplit(cmd$args,",")[[1]]
-if(cmd$options$oprefix!="none") {
-  oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
-} else {
+oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
+if(cmd$options$oprefix=="none" || length(oprefixs)!=length(bam_files)) {
   oprefixs=gsub(".bam$","",bam_files) #oprefixs=libwise statfiles, mprefix=merged statfiles
-} 
+}
 cat("==oprefixs:",oprefixs,"\n")
 if(cmd$options$mprefix=="none") {
   mprefix=lcPrefix(oprefixs)
