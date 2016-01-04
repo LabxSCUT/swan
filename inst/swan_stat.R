@@ -34,7 +34,7 @@ option_list2 <- list(
   make_option(c("-o", "--oprefix"), default="none",
               help="bam-wise stat output prefixs [default %default] "),
   make_option(c("-m", "--mprefix"), default="none",
-              help="merged stat output prefixs [default %default] "),
+              help="merged stat output prefixs, only one even for multilib input [default %default] "),
   make_option(c("-s", "--step"), type="integer", default=10,
               help="bin step size on histogram [default %default]"),
   make_option(c("-q", "--noQuiet"), action="store_true", default=FALSE,
@@ -59,8 +59,17 @@ chrname=cmd$options$chrname
 what=c("pos","mpos","isize","strand","qwidth","cigar","qname","flag")
 max_chr_len=3e+8
 bam_files=strsplit(cmd$args,",")[[1]]
+<<<<<<< HEAD
 oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
 if(cmd$options$oprefix=="none" || length(oprefixs)!=length(bam_files)) {
+=======
+if(cmd$options$oprefix!="none") {
+  oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
+} else if(cmd$options$mprefix!="none") {
+  oprefixs=rep(cmd$options$mprefix,length(bam_files)); #use libwise mpreifx
+} else {
+  cat("==Warn: using the same directory as bamfile for stat output, output_prefix=",gsub(".bam$","",bam_files),"\n")
+>>>>>>> origin/master
   oprefixs=gsub(".bam$","",bam_files) #oprefixs=libwise statfiles, mprefix=merged statfiles
 }
 cat("==oprefixs:",oprefixs,"\n")
@@ -70,7 +79,7 @@ if(cmd$options$mprefix=="none") {
   mprefix=cmd$options$mprefix
 } 
 cat("==mprefix:",mprefix,"\n")
-bam_tmps=paste(oprefixs,"stat.bam",sep=".")
+bam_tmps=paste(oprefixs,seq(oprefixs),"stat.bam",sep=".")
 cat("==bam_tmps:",bam_tmps,"\n")
 
 myseqinfo=function(bam_file){
@@ -115,8 +124,8 @@ for(ni in seq_along(bam_files)){
   frac=min(yield/nreads,1)
   cat("chr_name:", chrname,"\n")
   cat("chr_len:", chr_length,"\n")
-  cat(sprintf("samtools view -bh -s %f %s >%s",frac,bam_file,bam_tmp),"\n")
-  system(sprintf("samtools view -bh -s %f %s >%s",frac,bam_file,bam_tmp)) 
+  cat(sprintf("samtools view -bh -s %f %s >%s",-(frac+1),bam_file,bam_tmp),"\n") #1.75 not working, -1.75 will work
+  system(sprintf("samtools view -bh -s %f %s >%s",-(frac+1),bam_file,bam_tmp))   #most likely samtools bug
   cat(sprintf("samtools index %s",bam_tmp),"\n") 
   system(sprintf("samtools index %s",bam_tmp)) 
   bam_sample=BamFile(bam_tmp) #TODO: significant time spend here, reduce
