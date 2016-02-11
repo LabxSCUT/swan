@@ -24,7 +24,7 @@ DEPENDENCIES
         through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
   R(>=3.1)
         `R download <http://www.r-project.org>`_
-  Samtools(>=0.19)
+  Samtools(>=0.20)
         `Samtools download <http://www.samtools.org>`_
   CRAN R Libraries
         RcppArmadillo (source), Rcpp (source);
@@ -36,7 +36,7 @@ INSTALL
 -------------
   
   Following installation process assumes: 
-  (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.19) are already properly installed and in your $PATH; 
+  (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.20) are already properly installed and in your $PATH; 
 
   **Install R Package Dependencies**
   
