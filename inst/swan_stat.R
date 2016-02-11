@@ -59,17 +59,12 @@ chrname=cmd$options$chrname
 what=c("pos","mpos","isize","strand","qwidth","cigar","qname","flag")
 max_chr_len=3e+8
 bam_files=strsplit(cmd$args,",")[[1]]
-<<<<<<< HEAD
-oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
-if(cmd$options$oprefix=="none" || length(oprefixs)!=length(bam_files)) {
-=======
 if(cmd$options$oprefix!="none") {
   oprefixs=strsplit(cmd$options$oprefix,",")[[1]]; #if libwise oprefix is specified, will use specified
 } else if(cmd$options$mprefix!="none") {
   oprefixs=rep(cmd$options$mprefix,length(bam_files)); #use libwise mpreifx
 } else {
   cat("==Warn: using the same directory as bamfile for stat output, output_prefix=",gsub(".bam$","",bam_files),"\n")
->>>>>>> origin/master
   oprefixs=gsub(".bam$","",bam_files) #oprefixs=libwise statfiles, mprefix=merged statfiles
 }
 cat("==oprefixs:",oprefixs,"\n")
