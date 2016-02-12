@@ -127,6 +127,7 @@ if(debug){ options(warn=2) } else { options(warn=-1) }
 gtk=proc.time()[3]
 gmk=get_gmk(Sys.getpid())
 
+cat("==Info: assigning options...\n")
 text_stat=cmd$options$stat
 text_chrname=cmd$options$chrname
 text_swan=cmd$options$swan
@@ -155,6 +156,7 @@ opt_confirm=cmd$options$confirm #set to turn on
 #ref_file="~/hg/hg19/human_g1k_v37.ucsc.fasta"; text_bam="NA12878.chr22.16M-21M.bam"; text_chrname="chr22"; text_swan="NA12878.chr22.16M-21M.swan.txt.gz"; text_bigd="NA12878.chr22.16M-21M.swan.bigd.txt"; text_seqcbs=""; text_sclip="";  text_bigd_opt="minmpr=5"; text_seqcbs_opt="minstat=0"; text_sclip_opt=""; text_sample="NA12878,INFO,MIX,DESCRIPTION"; text_species="human"; text_outprefix="input"; text_override="NA12878.chr22.16M-21M.swan.ovrd.txt"; opt_verbose=TRUE; opt_debug=TRUE; opt_confirm=FALSE; text_swan_opt="track=lCd,method=theo,thresh=level3,sup=200,gap=200:track=lDr+lDl,method=theo,thresh=level3,tele=100,sup=100,gap=100:track=ins,sup=50,cvg=5:track=del,sup=20,cvg=5";
 
 ### parsing options ###
+cat("==Info: parsing options...\n")
 sample_tags=strsplit(text_bam,split=':')[[1]]
 n_sample=length(sample_tags); rg_files=strsplit(sample_tags,split=","); n_sp=n_sample
 if(text_outprefix=='input') { 
@@ -164,6 +166,7 @@ if(text_outprefix=='input') {
 } else {
   out_prefix=text_outprefix
 }
+
 swan_files=NULL;swan_parfs=list();disc_files=NULL;seqcbs_files=NULL;seqcbs_parf=NULL
 bigd_files=NULL;sclip_parf=NULL;sclip_file=NULL;ovrd_files=NULL;swan_par=NULL
 #NOTE: ovrd_file to be compatible with safe_read function
@@ -212,6 +215,7 @@ if(text_chrname %in% c("A","a","ALL","all","All")){
 }
 ref_len = sapply(seq_name, function(x) { length(ref_seq[[x]]) }); 
 #get coverage
+cat("==Info: getting coverage...\n")
 bamfile1=rg_files[[n_sp]]; mean_cvg1=list(); rl1=rep(NA,length(bamfile1)); cvg1=rep(NA,length(bamfile1));
 bamfile0=NULL; mean_cvg0=NULL; 
 for(ix in seq_along(ref_seq)){
@@ -249,6 +253,7 @@ if(n_sp>1){#
     }
   }
 }
+cat("==Info: getting options..\n")
 if(text_swan_opt==""){
 	if(n_sp>1){
 		text_swan_opt=swan_opt_default2
@@ -275,17 +280,23 @@ for(i in seq_along(swan_opt)) names(swan_opt[[i]])=sapply(lapply(swan_opt[[i]],"
 bigd_opt=lapply(strsplit(text_bigd_opt,":")[[1]],parse_opt)
 disc_opt=lapply(strsplit(text_disc_opt,":")[[1]],parse_opt)
 disc_opt[[n_sp]]$cvg=mean_cvg1; if(n_sp>1) disc_opt[[1]]$cvg=mean_cvg0
-cat("swan_opt\n")
-print(swan_opt)
-cat("bigd_opt\n")
-print(bigd_opt)
-cat("disc_opt\n")
-print(disc_opt)
 seqcbs_opt=parse_opt(text_seqcbs_opt)
 sclip_opt=parse_opt(text_sclip_opt)
+
+cat("==Info: parsing track files..\n")
+cat("==Info: bam_files:\n"); print(rg_files)
+cat("==Info: swan_files:\n"); print(swan_files)
+cat("==Info: swan_parfs:\n"); print(swan_parfs)
+cat("==Info: bigd_files:\n"); print(bigd_files)
+cat("==Info: disc_files:\n"); print(disc_files)
+cat("==Info: seqcbs_files:\n"); print(seqcbs_files)
+cat("==Info: sclip_file:\n"); print(sclip_file)
+cat("==Info: ovrd_files:\n"); print(ovrd_files)
+cat("==Info: ref_file:\n"); print(ref_file)
 swan_score = NULL
-if(length(seq_name)>1 || text_chrname %in% c("A","a","ALL","all","All")) { # if >1 chr, input MUST be a.%chr.swan.txt.gz
+if(length(seq_name)>1 || text_chrname %in% c("A","a","ALL","all","All")) { # if >1 chr, input MUST be %pf.%chr.swan.txt.gz
   if(length(swan_files)>0){
+		cat("==Info: setting swan files..\n")
   	for(i in seq_len(n_sp)){
   		swan_files[[i]]=paste(swan_files[[i]],seq_name,"swan.txt.gz",sep=".")
   		swan_parfs[[i]]=gsub("swan.txt.gz","swan.par.txt",swan_files[[i]])
@@ -293,54 +304,50 @@ if(length(seq_name)>1 || text_chrname %in% c("A","a","ALL","all","All")) { # if 
   	}
   }
   if(length(bigd_files)>0){
+		cat("==Info: setting bigd files..\n")
   	for(i in seq_len(n_sp)){
   		bigd_files[[i]]=paste(bigd_files[[i]],seq_name,"bigd.txt",sep=".")
   		swan_parfs[[i]]=gsub(".bigd.txt",".swan.par.txt",bigd_files[[i]])
   	}
   }
   if(length(disc_files)>0){
+		cat("==Info: setting disc files..\n")
   	for(i in seq_len(n_sp)){
   		disc_files[[i]]=paste(disc_files[[i]],seq_name,"disc.txt",sep=".")
   		swan_parfs[[i]]=gsub(".disc.txt",".swan.par.txt",disc_files[[i]])
   	}
   }
-} else {
+} else { # only one chr
 	if(length(swan_files)>0){
+		cat("==Info: setting swan file..\n")
 		for(i in seq_len(n_sp)){
     	#if(!grepl(swan_files[[i]],"txt")) stop("error: must specify full file name for single chr scan\n")
  			swan_parfs[[i]]=gsub("swan.txt.gz","swan.par.txt",swan_files[[i]])
 		}
 	}
 	if(length(bigd_files)>0){
+		cat("==Info: setting bigd file..\n")
 		for(i in seq_len(n_sp)){
     	#if(!grepl(swan_files[[i]],"txt")) stop("error: must specify full file name for single chr scan\n")
   		swan_parfs[[i]]=gsub(".bigd.txt",".swan.par.txt",bigd_files[[i]])
 		}
 	}
 	if(length(disc_files)>0){
+		cat("==Info: setting disc file..\n")
 		for(i in seq_len(n_sp)){
     	#if(!grepl(swan_files[[i]],"txt")) stop("error: must specify full file name for single chr scan\n")
   		swan_parfs[[i]]=gsub(".disc.txt",".swan.par.txt",disc_files[[i]])
 		}
 	}
 }
-cat("==Info: rg_files:\n"); print(rg_files)
-cat("==Info: swan_files:\n"); print(swan_files)
-cat("==Info: swan_parfs:\n"); print(swan_parfs)
+cat("==Info: parsing par file(s)..\n")
 if(!length(swan_parfs)==0) {
 	for(i in seq_len(n_sp)){
 		swan_par[[i]]=lapply(swan_parfs[[i]],read.table,header=TRUE)
 	}
 }
 conf_opt=list(max_del=0.9,min_dup=1.1,p_thresh=0.05,max_run=100,min_sc=10,min_mpr=5,diff_thresh=100,lrt_thresh=3,n_sp=n_sp,r_lst=c(0.2,0.5,0.95),gtk=gtk,verbose=verbose,debug=debug);
-cat("==Info: rg_files:\n"); print(rg_files)
-cat("==Info: swan_files:\n"); print(swan_files)
-cat("==Info: bigd_files:\n"); print(bigd_files)
-cat("==Info: disc_files:\n"); print(disc_files)
-cat("==Info: seqcbs_files:\n"); print(seqcbs_files)
-cat("==Info: sclip_file:\n"); print(sclip_file)
-cat("==Info: ovrd_files:\n"); print(ovrd_files)
-cat("==Info: ref_file:\n"); print(ref_file)
+cat("==Info: showing parameters..\n")
 cat("==Info: swan_par:\n"); print(swan_par)
 cat("==Info: swan_opt:\n"); print(swan_opt)
 cat("==Info: bigd_opt:\n"); print(bigd_opt)
@@ -405,23 +412,27 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
 		ovrd_files=rep(list(NULL),length(swan_files))
 		cat("ovrd_files\n"); print(ovrd_files)
 	}
-  if(length(swan_files)==1){
+  if(length(swan_files)==1){ #only one sample
+
     cat("=Info: calling small deletion ...")
 		reg_del=lapply(seq_along(seq_name),function(x){call_del(seq_name[x],swan_files[[1]][x],swan_par[[1]][[x]],swan_opt[[1]])})
 		reg_del=unlist(reg_del,recursive=F)
 		reg_del[sapply(reg_del, is.null)] <- NULL
-    cat("-Info: called", length(reg_del),"\n")
+    cat("-Info: called", length(reg_del), "in", taggie(gtk), "s\n")
+
     cat("=Info: calling small insertion ...")
 		reg_ins=lapply(seq_along(seq_name),function(x){call_ins(seq_name[x],swan_files[[1]][x],swan_par[[1]][[x]],swan_opt[[1]])})
 		reg_ins=unlist(reg_ins,recursive=F)
 		reg_ins[sapply(reg_ins, is.null)] <- NULL
-    cat("-Info: called", length(reg_ins),"\n")
+    cat("-Info: called", length(reg_ins),"in", taggie(gtk), "s\n")
+
     cat("=Info: calling cvg deletion / duplication ...")
 		reg_cvg=lapply(seq_along(seq_name),function(x){call_cvg(seq_name[x],swan_files[[1]][x],swan_par[[1]][[x]],ovrd_files[[1]],swan_opt[[1]],mean_cvg1[[seq_name[x]]])})
 		reg_cvg=unlist(reg_cvg,recursive=F)
 		reg_cvg[sapply(reg_cvg, is.null)] <- NULL
     #reg_cvg=call_cvg(swan_files[1],swan_par[[1]],ovrd_files[1],swan_opt[[1]],seqname)
-    cat("-Info: called", length(reg_cvg),"\n")
+    cat("-Info: called", length(reg_cvg),"in", taggie(gtk), "s\n")
+
     if(all(sapply(swan_par[[1]],"[[",'lCd'))){
       cat("=Info: calling lcd ...")
 			if(!debug){
@@ -431,22 +442,26 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
 			}
 			reg_lcd=unlist(reg_lcd,recursive=F)
 			reg_lcd[sapply(reg_lcd, is.null)] <- NULL
-      cat("-Info: called", length(reg_lcd),"\n")
+      cat("-Info: called", length(reg_lcd),"in", taggie(gtk), "s\n")
     }
+
     if(all(sapply(swan_par[[1]],"[[",'lDl'))&all(sapply(swan_par[[1]],"[[","lDr"))){
       cat("=Info: calling ldl and ldr ...")
 			reg_ldr_ldl=lapply(seq_along(seq_name),function(x){call_ldr_ldl(seq_name[x],swan_files[[1]][x],swan_par[[1]][[x]],ovrd_files[[1]],swan_opt[[1]],mean_cvg1[[seq_name[x]]])})
 			reg_ldr_ldl=unlist(reg_ldr_ldl,recursive=F)
 			reg_ldr_ldl[sapply(reg_ldr_ldl, is.null)] <- NULL
-      cat("-Info: called", length(reg_ldr_ldl),"\n")
+      cat("-Info: called", length(reg_ldr_ldl),"in", taggie(gtk), "s\n")
     }
+
     cat("=Info: calling HAF and HAR ...")
 		reg_haf_har=lapply(seq_along(seq_name),function(x){call_haf_har(seq_name[x],swan_files[[1]][x],swan_par[[1]][[x]],ovrd_files[[1]],swan_opt[[1]],mean_cvg1[[seq_name[x]]])})
 		reg_haf_har=unlist(reg_haf_har,recursive=F)
 		reg_haf_har[sapply(reg_haf_har, is.null)] <- NULL
     #reg_haf_har=call_haf_har(swan_files[1],swan_par[[1]],ovrd_files[1],swan_opt[[1]],seqname)
-    cat("-Info: called", length(reg_haf_har),"\n")
+    cat("-Info: called", length(reg_haf_har),"in", taggie(gtk), "s\n")
+
   } else { #2 swan files, matched case, find reg in spX not in spY
+
     reg_lcd_spX=list(); reg_lcd_spY=list(); reg_ldr_ldl_spX=list(); reg_ldr_ldl_spY=list()
     reg_cvg_spX=list(); reg_cvg_spY=list(); reg_haf_har_spX=list(); reg_haf_har_spY=list()
     if(length(swan_opt)==1) swan_opt[[2]]=swan_opt[[1]] ##TODO: smart way
@@ -459,6 +474,7 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
     #reg_cvg_spX=call_cvg(swan_files[2],swan_par[[2]],ovrd_files[2],swan_opt[[2]],seqname)
     #reg_cvg_spY=call_cvg(swan_files[1],swan_par[[1]],ovrd_files[1],swan_opt[[1]],seqname)
     reg_cvg=reg_diff(reg_cvg_spX, reg_cvg_spY)
+		
     if(all(sapply(swan_par[[1]],"[[",'lCd'))&all(sapply(swan_par[[2]],"[[","lCd"))){
       cat("=Info: calling lcd ...")
 			if(!debug){
@@ -475,8 +491,9 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
       #reg_lcd_spX=call_lcd(swan_files[2],swan_par[[2]],ovrd_files[2],swan_opt[[2]],seqname)
       #reg_lcd_spY=call_lcd(swan_files[1],swan_par[[1]],ovrd_files[1],swan_opt[[1]],seqname)
       reg_lcd=reg_diff(reg_lcd_spX, reg_lcd_spY)
-      cat("-Info: called", length(reg_lcd),"\n")
+      cat("-Info: called", length(reg_lcd),"in", taggie(gtk), "s\n")
     }
+
     if(all(sapply(swan_par[[1]],"[[",'lDl'))&all(sapply(swan_par[[1]],"[[","lDr"))&all(sapply(swan_par[[2]],"[[",'lDl'))&all(sapply(swan_par[[2]],"[[","lDr"))){
       cat("=Info: calling ldl and ldr ...")
 			reg_ldr_ldl_spX=lapply(seq_along(seq_name),function(x){call_ldr_ldl(seq_name[x],swan_files[[2]][x],swan_par[[2]][[x]],ovrd_files[[2]],swan_opt[[2]],mean_cvg1[[seq_name[x]]])})
@@ -488,8 +505,9 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
       #reg_ldr_ldl_spX=call_ldr_ldl(swan_files[2],swan_par[[2]],ovrd_files[2],swan_opt[[2]],seqname)
       #reg_ldr_ldl_spY=call_ldr_ldl(swan_files[1],swan_par[[1]],ovrd_files[1],swan_opt[[1]],seqname)
       reg_ldr_ldl=reg_diff(reg_ldr_ldl_spX, reg_ldr_ldl_spY)
-      cat("-Info: called", length(reg_ldr_ldl),"\n")
+      cat("-Info: called", length(reg_ldr_ldl),"in", taggie(gtk),"s\n")
     }
+
     cat("=Info: calling HAF and HAR ...")
 		reg_haf_har_spX=lapply(seq_along(seq_name),function(x){call_haf_har(seq_name[x],swan_files[[2]][x],swan_par[[2]][[x]],ovrd_files[[2]],swan_opt[[2]],mean_cvg1[[seq_name[x]]])})
 		reg_haf_har_spX=unlist(reg_haf_har_spX,recursive=F)
@@ -500,7 +518,8 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
     #reg_haf_har_spX=call_haf_har(swan_files[2],swan_par[[2]],ovrd_files[2],swan_opt[[2]],seqname)
     #reg_haf_har_spY=call_haf_har(swan_files[1],swan_par[[1]],ovrd_files[1],swan_opt[[1]],seqname)
     reg_haf_har=reg_diff(reg_haf_har_spX, reg_haf_har_spY)
-    cat("-Info: called", length(reg_haf_har),"\n")
+    cat("-Info: called", length(reg_haf_har),"in", taggie(gtk),"s\n")
+
     cat("=Info: calling small deletion ...")
 		reg_del_spX=lapply(seq_along(seq_name),function(x){if(debug) { cat("spX:",seq_name[x],"\n") }; call_del(seq_name[x],swan_files[[2]][x],swan_par[[2]][[x]],swan_opt[[2]])})
 		reg_del_spX=unlist(reg_del_spX,recursive=F)
@@ -509,7 +528,7 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
 		reg_del_spY=unlist(reg_del_spY,recursive=F)
 		reg_del_spY[sapply(reg_del_spY, is.null)] <- NULL
     reg_del=reg_diff(reg_del_spX,reg_del_spY)
-    cat("-Info: called", length(reg_del),"\n")
+    cat("-Info: called", length(reg_del),"in", taggie(gtk),"s\n")
 
     cat("=Info: calling small insertion ...")
 		reg_ins_spX=lapply(seq_along(seq_name),function(x){if(debug) cat("spX:",seq_name[x],"\n"); call_ins(seq_name[x],swan_files[[2]][x],swan_par[[2]][[x]],swan_opt[[2]])})
@@ -519,8 +538,9 @@ if(length(swan_files)==0|length(swan_files)>2) { #ensure swan_files is length 1 
 		reg_ins_spY=unlist(reg_ins_spY,recursive=F)
 		reg_ins_spY[sapply(reg_ins_spY, is.null)] <- NULL
     reg_ins=reg_diff(reg_ins_spX,reg_ins_spY)
-    cat("-Info: called", length(reg_ins),"\n")
-  } #end swan call
+    cat("-Info: called", length(reg_ins),"in", taggie(gtk),"s\n")
+
+  }
 } #end swan call
 
 if(length(bigd_files)==0|length(bigd_files)>2) { #ensure bigd_files is length 1 to 2
