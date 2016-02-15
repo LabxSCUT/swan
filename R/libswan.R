@@ -1351,7 +1351,8 @@ thresh_score=function(score,idx,score_track,swan_par,ovrd_file,method,thresh,seq
         thresh_track=rep(thresh_value,n_wins)
       }
     } else { #specified in significance level
-      thresh_value=as.integer(substr(thresh,nchar(thresh),nchar(thresh)+1)); 
+      #thresh_value=as.integer(substr(thresh,nchar(thresh),nchar(thresh)+1)); 
+			thresh_value=as.integer(gsub("[^0-9]","",thresh))
     }
     if(use_method) {
       #list[comment,score_track]=read_com(swan_file,comment_char="#",colClasses="numeric")
@@ -1367,9 +1368,10 @@ thresh_score=function(score,idx,score_track,swan_par,ovrd_file,method,thresh,seq
         thresh_track=rep(thresh_value,n_wins)
       } else if(method=="empr"){
         thresh_value = max(min(thresh_value,20),2)
+				cat("==Info: empr thresh_value=",thresh_value,"\n")
         K=round(100000/(2*stepsize))*2+1
         if(is.na(K)){ 
-        cat("==WARNING: K is NA, stepsize=",stepsize,"\n")
+					cat("==WARNING: K is NA, stepsize=",stepsize,"\n")
           K=10000
         }
         Z=score_track

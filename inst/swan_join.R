@@ -39,6 +39,7 @@ for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc
 #tier1 separator (:); tier2 separator (_); tier3 separator (,)
 
 #default1 for single input, default2 for matched input
+#swan_opt_default1="track=lCd,method=empr,thresh=level7,sup=100,gap=100_track=lDr+lDl,method=theo,thresh=level3,sup=100,gap=100"
 swan_opt_default1="track=lCd,method=empr,thresh=level7,sup=100,gap=100_track=lDr+lDl,method=theo,thresh=level3,sup=100,gap=100_track=ins,sup=50,cvg=5_track=del,sup=50,cvg=5"
 swan_opt_default2="track=lCd,method=empr,thresh=level6,sup=50,gap=100_track=lDr+lDl,method=theo,thresh=level2,sup=50,gap=100_track=ins,sup=20,cvg=2_track=del,sup=20,cvg=2:track=lCd,method=empr,thresh=level7,sup=100,gap=100_track=lDr+lDl,method=theo,thresh=level3,sup=100,gap=100_track=ins,sup=50,cvg=5_track=del,sup=50,cvg=5"
 bigd_opt_default1="minmpr=5,maxins=50000"
