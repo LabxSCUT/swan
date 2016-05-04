@@ -1608,7 +1608,7 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
   reg_dedup=rep(list(NULL), length(reg_lst)); done_idx=c()
   for(idx in seq_along(reg_lst)){
     if(idx %in% done_idx) {
-      next
+      next #this sv is done
     } else { #this search will form a closed clique eventually
       #find out which regions to combine
       tmp_todo_idx=unique(c(start_ovlap[[idx]],end_ovlap[[idx]],span_ovlap[[idx]])); tmp_done_idx=c()
@@ -1632,24 +1632,26 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
       #sv_mtd: lcd, ldx, hax, cvg, disc, bigd, sclip, cbs, del, ins
       #sv_type: DEL, INS, INV, DUP, TRP
       done=FALSE
+
       #0. if see one and only one evidence:
-      #   0.1 if sclip yet type=NA, no output of this, 
-      #   0.2 otherwise output this and continue
+      #   0.1 if sclip yet type=NA
+      #   0.2 otherwise output this
       if(length(tmp_todo_idx)==1){
         kdx = tmp_todo_idx; 
-        if( reg_lst[[kdx]]$sv_mtd=="ldx" && !output_ldx ) {
-          done=TRUE; if(done) next; #ignoring singleton ldx-INS cases 
+        if( reg_lst[[kdx]]$sv_mtd=="ldx" && !output_ldx ) { 
+          done=TRUE; if(done) next; #if output_ldx then output singleton ldx.INS cases 
         } else if( reg_lst[[kdx]]$sv_mtd=="sclip" && reg_lst[[kdx]]$sv_type=="NA" && !output_sclip) {
-          done=TRUE; if(done) next;  #ignoring singleton sclip-NA cases
+          done=TRUE; if(done) next;  #if output_sclip then output singleton sclip.NA cases
         } else {
           reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; if(done) next; #whatever it is output
         }
         if(done) next;
       }
-      #   0.3 if only ldx in the evidence
+      #   0.3 if only ldx in the evidence 
       if( all(tmp_todo_mtd==c("ldx")) && !output_ldx ) { 
-        done=TRUE; if(done) next; #ignoring multiple ldx-INS cases
+        done=TRUE; if(done) next; #if output_ldx then output multiple ldx.* cases
       }
+
       #1. if we see sclip in evidence
       #    1.1 if sclip or other DEL evidence: bigd, lcd, etc, 
       #        we consider this is a deletion and output the most probable sclip, bigd, lcd (DEL)
@@ -1673,12 +1675,20 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
           if("sclip" %in% del_type){ #let's use sclip
             kdx=del_idx[del_mtd=="sclip"][which.max(del_len[del_mtd=="sclip"])]
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
-          } else { #otherwise use the one with biggest span
-            kdx=del_idx[which.max(del_len)]; 
+          } else if("bigd" %in% del_type) { #use the one with biggest span
+	    if("lcd" %in% tmp_todo_mtd) { cat("add sclip+bigd", kdx, "\n"); }
+            kdx=del_idx[del_mtd=="bigd"][which.max(del_len[del_mtd=="bigd"])]
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
-          }
+          } else if("del" %in% del_type) {
+            kdx=del_idx[del_mtd=="del"][which.max(del_len[del_mtd=="del"])]
+            reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
+	  } else {
+            kdx=del_idx[which.max(del_len)]; 
+	    if("lcd" %in% tmp_todo_mtd) { cat("add sclip+lcd", kdx, "\n"); }
+            reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
+	  }
         } else if(length(good_type)>0) { # trust INV>TRP>DUP>INS
-          #controlled verbose types: DEL,INS,INV,TRP,DUP
+          #controlled other ontology types: DEL,INS,INV,TRP,DUP
           inv_idx=good_type_idx[good_type=="INV"]
           tra_idx=good_type_idx[good_type=="TRA"]
           dup_idx=good_type_idx[good_type=="DUP"]
@@ -1696,12 +1706,13 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
             kdx=ins_idx[1];
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
           }
-        } else { #else combinations mingled with sclip
+        } else { #other combinations got mingled with sclip, let's just forget about it
           non_sclip_idx=tmp_todo_idx[tmp_todo_mtd!="sclip"]
           if(length(non_sclip_idx)==0) done=TRUE; #cat("add", kdx, "\n");
         }
         if(done) next;
       }
+
       #2. if see more than two of one method of evidence (but no sclip)
       #   2.1 we find the first with a sv type and we output
       #   2.2 if we already reach the last one, we have to output
@@ -1715,11 +1726,12 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
         }
         if(done) next;
       }
+
       #3. if we see bigd in evidence with others, trust bigd
       #    3.1 find the max span bigd and output  
       if("bigd" %in% tmp_todo_mtd){ #dedup DEL
-        bigd_idx = tmp_todo_idx[which(tmp_todo_mtd=="bigd")]
-        kdx = bigd_idx[1]
+        bigd_idx = tmp_todo_idx[which(tmp_todo_mtd=="bigd")]; kdx = bigd_idx[1]
+	if("lcd" %in% tmp_todo_mtd) { cat("add bigd+lcd", kdx, "\n"); }
         bigd_len = reg_lst[[kdx]]$sv_end-reg_lst[[kdx]]$sv_start
         for(jdx in bigd_idx[-1]) 
           if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start>bigd_len) 
@@ -1727,11 +1739,14 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
         reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
         if(done) next;
       }
-      #4. if we see lcd in evidence with others 
+
+      #4. if we see lcd in evidence with others, but no bigd, trust lcd 
       #    3.1 if we additionally see disc, find the max length of (disc and lcd), output this
       #    3.2 else we use lcd and output this
       if("lcd" %in% tmp_todo_mtd){ #dedup DEL
-        lcd_idx = tmp_todo_idx[which(tmp_todo_mtd=="lcd")]; kdx = lcd_idx[1]
+        lcd_idx = tmp_todo_idx[which(tmp_todo_mtd=="lcd")]; kdx = lcd_idx[1] #multiple lcd? (yes for inv)
+	if("sclip" %in% tmp_todo_mtd) { cat("wrong sclip+lcd", kdx, "\n"); }
+	if("bigd" %in% tmp_todo_mtd) { cat("wrong bigd+lcd", kdx, "\n"); }
         lcd_len = reg_lst[[kdx]]$sv_end-reg_lst[[kdx]]$sv_start
         for(jdx in lcd_idx[-1]) 
           if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start>lcd_len) 
@@ -1747,6 +1762,7 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
         }
         if(done) next;
       }
+
       #5. if we see disc and ldx together (no bigd, no lcd, no sclip)
       #   5.1 we find the max_len(disc, ldx) and output this. If INV is the sv_type, we set it to DUP 
       if("disc" %in% tmp_todo_mtd & "ldx" %in% tmp_todo_mtd){
