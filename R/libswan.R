@@ -1496,7 +1496,7 @@ ovlap_reg=function(reg_first){
       shift=shift+1
     }
   for(i in seq_along(reg_first)) 
-    if(reg_first[[i]]$sv_mtd=="sclip"){ #use sclip for region ovlap is dangerous
+    if(reg_first[[i]]$sv_mtd=="sclip" || reg_first[[i]]$sv_mtd=="disc"){ #use sclip for region ovlap is dangerous, disable it
       first_start[i]=max_chr_len+shift; first_end[i]=max_chr_len+shift #
       second_start[i]=max_chr_len+shift; second_end[i]=max_chr_len+shift #
       shift=shift+1
@@ -1629,6 +1629,13 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
       tmp_todo_start=sapply(reg_lst[tmp_todo_idx],"[[","sv_start")
       tmp_todo_chr2=sapply(reg_lst[tmp_todo_idx],"[[","sv_end_chr")
       tmp_todo_end=sapply(reg_lst[tmp_todo_idx],"[[","sv_end")
+      watch=FALSE
+      if("22" %in% tmp_todo_chr1 && "22" %in% tmp_todo_chr2 && "bigd" %in% tmp_todo_mtd){
+        print(reg_list[tmp_todo_idx])
+        print(tmp_todo_mtd)
+        cat("bigd=>")
+        watch=TRUE
+      }
       #sv_mtd: lcd, ldx, hax, cvg, disc, bigd, sclip, cbs, del, ins
       #sv_type: DEL, INS, INV, DUP, TRP
       done=FALSE
@@ -1671,20 +1678,22 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
         del_type = tmp_todo_type[which(tmp_todo_type=="DEL")]
         good_type = tmp_todo_type[tmp_todo_type!="NA"]
         good_type_idx = tmp_todo_idx[tmp_todo_type!="NA"]
+        #print(del_mtd)
         if(length(del_idx)>0) { #first consider deletion
-          if("sclip" %in% del_type){ #let's use sclip
+          if("sclip" %in% del_mtd){ #let's use sclip
             kdx=del_idx[del_mtd=="sclip"][which.max(del_len[del_mtd=="sclip"])]
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
-          } else if("bigd" %in% del_type) { #use the one with biggest span
-	    if("lcd" %in% tmp_todo_mtd) { cat("add sclip+bigd", kdx, "\n"); }
+          } else if("bigd" %in% del_mtd) { #use the one with biggest span
             kdx=del_idx[del_mtd=="bigd"][which.max(del_len[del_mtd=="bigd"])]
+	    #if("lcd" %in% tmp_todo_mtd) { cat("add sclip+bigd+lcd", kdx, "\n"); }
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
-          } else if("del" %in% del_type) {
+            if(watch) cat("bigd\n"); #proper bigd handling
+          } else if("del" %in% del_mtd) {
             kdx=del_idx[del_mtd=="del"][which.max(del_len[del_mtd=="del"])]
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
 	  } else {
             kdx=del_idx[which.max(del_len)]; 
-	    if("lcd" %in% tmp_todo_mtd) { cat("add sclip+lcd", kdx, "\n"); }
+	    #if("lcd" %in% tmp_todo_mtd) { cat("add sclip+lcd", kdx, "\n"); }
             reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
 	  }
         } else if(length(good_type)>0) { # trust INV>TRP>DUP>INS
@@ -1731,12 +1740,13 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
       #    3.1 find the max span bigd and output  
       if("bigd" %in% tmp_todo_mtd){ #dedup DEL
         bigd_idx = tmp_todo_idx[which(tmp_todo_mtd=="bigd")]; kdx = bigd_idx[1]
-	if("lcd" %in% tmp_todo_mtd) { cat("add bigd+lcd", kdx, "\n"); }
+	#if("lcd" %in% tmp_todo_mtd) { cat("add bigd+lcd", kdx, "\n"); }
         bigd_len = reg_lst[[kdx]]$sv_end-reg_lst[[kdx]]$sv_start
         for(jdx in bigd_idx[-1]) 
-          if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start>bigd_len) 
+          if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start<bigd_len) 
             { kdx=jdx; bigd_len=reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start }
         reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
+        if(watch) cat("bigd\n");
         if(done) next;
       }
 
@@ -1745,21 +1755,13 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
       #    3.2 else we use lcd and output this
       if("lcd" %in% tmp_todo_mtd){ #dedup DEL
         lcd_idx = tmp_todo_idx[which(tmp_todo_mtd=="lcd")]; kdx = lcd_idx[1] #multiple lcd? (yes for inv)
-	if("sclip" %in% tmp_todo_mtd) { cat("wrong sclip+lcd", kdx, "\n"); }
-	if("bigd" %in% tmp_todo_mtd) { cat("wrong bigd+lcd", kdx, "\n"); }
+	#if("sclip" %in% tmp_todo_mtd) { cat("priority wrong! lcd+sclip", kdx, "\n"); }
+	#if("bigd" %in% tmp_todo_mtd) { cat("priority wrong! lcd+bigd", kdx, "\n"); }
         lcd_len = reg_lst[[kdx]]$sv_end-reg_lst[[kdx]]$sv_start
         for(jdx in lcd_idx[-1]) 
-          if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start>lcd_len) 
+          if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start<lcd_len) 
             { kdx=jdx; lcd_len=reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start }
-        if("disc" %in% tmp_todo_mtd) {
-          disc_idx = tmp_todo_idx[which(tmp_todo_mtd=="disc")]
-          for(jdx in disc_idx) 
-            if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start>lcd_len)
-              { kdx=jdx; lcd_len=reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start }
-          reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
-        } else { #trust lcd if we see del, ins, cvg, ldx, hax and seqcbs etc.
-          reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
-        }
+        reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
         if(done) next;
       }
 
@@ -1775,7 +1777,19 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
         #if(reg_dedup[[kdx]]$sv_type == "INV") reg_dedup[[kdx]]$sv_type="DUP"; done = TRUE; #correct type #cat("add", kdx, "\n");
         if(done) next;
       }
-      #6. if we see ldx and ins/del together (no bigd, no lcd, no sclip)
+
+      #7. if we see disc evidence it could be either DUP/INV/TRA
+      if("disc" %in% tmp_todo_mtd) {
+        disc_idx = tmp_todo_idx[which(tmp_todo_mtd=="disc")]; kdx = disc_idx[1]
+        disc_len = reg_lst[[kdx]]$sv_end-reg_lst[[kdx]]$sv_start
+        for(jdx in disc_idx[-1]) 
+          if(reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start<disc_len)
+              { kdx=jdx; disc_len=reg_lst[[jdx]]$sv_end-reg_lst[[jdx]]$sv_start }
+        reg_dedup[[kdx]]=reg_lst[[kdx]]; done=TRUE; #cat("add", kdx, "\n");
+        if(done) next;
+      }
+
+      #8. if we see ldx and ins/del together (no bigd, no lcd, no sclip)
       #   6.1 If ldx and del together, we set it to DEL 
       #   6.2 If ldx and del together, we set it to INS
       if("del" %in% tmp_todo_mtd & "ldx" %in% tmp_todo_mtd){

@@ -634,7 +634,6 @@ if(savevcf) write_com(vcf_raw,comment=vcf_meta,filename=paste(out_prefix,".raw.v
 cat("==Info: total ",nrow(bed_raw),"raw calls, ",paste(out_prefix,".raw.bed",sep=""),"written!\n")
 load_opt=list(seqname=seq_name,debug=debug,verbose=verbose) #why this need seqname
 
-
 cat("-Info: prepared raw calls for confirmation and genotyping\n")
 reg_good=c(reg_sclip,reg_seqcbs_good,reg_del,reg_ins); cat("-Info: directly confirmed REGIONS, total:",length(reg_good),"\n")
 reg_lst=c(reg_seqcbs,reg_lcd,reg_ldr_ldl,reg_haf_har,reg_bigd,reg_disc,reg_cvg)
