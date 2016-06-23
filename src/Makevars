@@ -60,8 +60,10 @@ PKG_CXXFLAGS += -fPIC -fopenmp $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
 
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
-PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/libs${R_ARCH}/libboost_regex.so"
+PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
 PKG_LIBS += -lz
+#Note importantly:
+#  we can use libs${R_ARCH} because this is gonna be cleaned by R internally 
 
 .PHONY: all libs clean
 
@@ -75,7 +77,7 @@ $(SHLIB): libs
 #  Error in dyn.load(file, DLLpath = DLLpath, ...) :
 #    unable to load shared object '/home/user/R/x86_64-pc-linux-gnu-library/3.2/swan/libs/swan.so':
 #    /home/user/R/x86_64-pc-linux-gnu-library/3.2/swan/libs/swan.so: undefined symbol: _ZN5boost16re_detail_10600012perl_matcherIN9__gnu_cxx17__normal_iteratorIPKcSsEESaINS_9sub_matchIS6_EEENS_12regex_traitsIcNS_16cpp_regex_traitsIcEEEEE14construct_initERKNS_11basic_regexIcSD_EENS_15regex_constants12_match_flagsE
-libs: libbam.a libbwa.a libboost_regex.so
+libs: libbam.a libbwa.a libboost_regex.a
 	mkdir -p "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
 	mkdir -p "${R_PACKAGE_DIR}/include/samtools"
 	cp samtools/*.h "${R_PACKAGE_DIR}/include/samtools/"
@@ -83,10 +85,10 @@ libs: libbam.a libbwa.a libboost_regex.so
 	mkdir -p "${R_PACKAGE_DIR}/include/bwa"
 	cp bwa/*.h "${R_PACKAGE_DIR}/include/bwa/"
 	cp libbwa.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
-	cp -L boost_tree/stage/lib/libboost_regex.so* "${R_PACKAGE_DIR}/libs${R_ARCH}"
+	cp -L boost_tree/stage/lib/libboost_regex.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
 	cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
 
-libboost_regex.so:
+libboost_regex.a:
 	./boost.build.sh
 
 libbam.a: $(BAMOBJ)
