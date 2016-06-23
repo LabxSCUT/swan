@@ -3818,6 +3818,12 @@ get_MPRs <- function(seq_info,bam_file,RL,Delta,bigDel,smallDel,smallIns,maxInse
   if(verbose) cat("---Info: found",sum(c(conc_lMPRs$mpos-conc_lMPRs$pos<=maxInsert & conc_lMPRs$mpos-conc_lMPRs$pos>=bigDel,conc_rMPRs$pos-conc_rMPRs$mpos<=maxInsert & conc_rMPRs$pos-conc_rMPRs$mpos>=bigDel)),"got double counted in lCd and bigD\n")
   conc_isize_lidx=!is.na(conc_lMPRs$isize) & conc_lMPRs$isize>=RL  #only use consistent isize
   conc_isize_ridx=!is.na(conc_rMPRs$isize) & conc_rMPRs$isize<=-RL #only use consistent isize
+  conc_isize_lidx_OK=abs((conc_lMPRs$mpos[min_lidx&conc_isize_lidx]-conc_lMPRs$pos[min_lidx&conc_isize_lidx])-conc_lMPRs$isize[min_lidx&conc_isize_lidx])<(RL*1.5)
+  #print(summary(abs((conc_lMPRs$mpos[min_lidx&conc_isize_lidx]-conc_lMPRs$pos[min_lidx&conc_isize_lidx])-conc_lMPRs$isize[min_lidx&conc_isize_lidx])))
+  conc_isize_ridx_OK=abs((conc_rMPRs$pos[min_ridx&conc_isize_ridx]-conc_rMPRs$mpos[min_ridx&conc_isize_ridx])+conc_rMPRs$isize[min_ridx&conc_isize_ridx])<(RL*1.5)
+  #print(summary(abs((conc_rMPRs$pos[min_ridx&conc_isize_ridx]-conc_rMPRs$mpos[min_ridx&conc_isize_ridx])+conc_rMPRs$isize[min_ridx&conc_isize_ridx])))
+  if(verbose) cat("---Info: found",sum(conc_isize_lidx_OK),"of", length(conc_isize_lidx_OK), "conc_lMPRs have consistent pos, mpos and isize\n")
+  if(verbose) cat("---Info: found",sum(conc_isize_ridx_OK),"of", length(conc_isize_ridx_OK), "conc_rMPRs have consistent pos, mpos and isize\n")
   #problematic isize goes to disc 
   if(sum(c(min_lidx,min_ridx))!=0)
     rPbi=IRanges(start=c(conc_lMPRs$pos[min_lidx&conc_isize_lidx],conc_rMPRs$mpos[min_ridx&conc_isize_ridx]),
