@@ -60,7 +60,7 @@ PKG_CXXFLAGS += -fPIC -fopenmp $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
 
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
-PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
+PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/libs${R_ARCH}/libboost_regex.so"
 PKG_LIBS += -lz
 
 .PHONY: all libs clean
@@ -70,7 +70,7 @@ all: $(SHLIB)
 $(SHLIB): libs
 
 #note importantly:
-#  libboost_regx.a doesn't contain symbols needed
+#  libboost_regex.a doesn't contain symbols needed
 #  and link to it will cause:
 #  Error in dyn.load(file, DLLpath = DLLpath, ...) :
 #    unable to load shared object '/home/user/R/x86_64-pc-linux-gnu-library/3.2/swan/libs/swan.so':
@@ -83,10 +83,10 @@ libs: libbam.a libbwa.a libboost_regex.so
 	mkdir -p "${R_PACKAGE_DIR}/include/bwa"
 	cp bwa/*.h "${R_PACKAGE_DIR}/include/bwa/"
 	cp libbwa.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
-	cp boost_tree/stage/lib/libboost_regex.so "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
+	cp -L boost_tree/stage/lib/libboost_regex.so* "${R_PACKAGE_DIR}/libs${R_ARCH}"
 	cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
 
-libboost_regex.a:
+libboost_regex.so:
 	./boost.build.sh
 
 libbam.a: $(BAMOBJ)
