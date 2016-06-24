@@ -36,8 +36,11 @@ BWAOBJ_0 = utils.o kthread.o kstring.o ksw.o bwt.o bntseq.o bwa.o bwamem.o bwame
 BWAOBJ=$(BWAOBJ_0:%=bwa/%)
 
 RCPP_CXXFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::CxxFlags()" )
+$(info $$RCPP_CXXFLAGS is [${RCPP_CXXFLAGS}])
 ARMA_CXXFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::CxxFlags()" )
+$(info $$ARMA_CXXFLAGS is [${ARMA_CXXFLAGS}])
 RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" )
+$(info $$RCPP_LDFLAGS is [${RCPP_LDFLAGS}])
 #ARMA_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::LdFlags()" ) #ARMA_LDFLAGS is not needed
 
 #INTEGRATE BOOST
@@ -56,14 +59,20 @@ RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" 
 #PKG_CXXFLAGS += -fPIC -std=c++11 -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 #PKG_CXXFLAGS += -fPIC -fopenmp -I$(BOOST_INCLUDE_DIR) $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
 #PKG_LIBS += -L$(BOOST_LIBS) $(RCPP_LDFLAGS) -l$(BOOST_REGEX_LIB) -fopenmp -lgomp 
-PKG_CXXFLAGS += -fPIC -fopenmp $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS)
-PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
-
+PKG_CXXFLAGS += -fPIC $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS) -I./boost_tree
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
-PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/libs${R_ARCH}/libboost_regex.a"
+PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
+PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
 PKG_LIBS += -lz
+#Note importantly:
+#  -lz has to be last, else will cause it not linked
+$(info $$PKG_CFLAGS is [${PKG_CFLAGS}])
+$(info $$PKG_CXXFLAGS is [${PKG_CXXFLAGS}])
+$(info $$PKG_LIBS is [${PKG_LIBS}])
+#Note importantly:
+#  we can use libs${R_ARCH} because this is gonna be cleaned by R internally 
 
-.PHONY: all libs clean
+.PHONY: libs clean all 
 
 all: $(SHLIB)
 
@@ -83,8 +92,8 @@ libs: libbam.a libbwa.a libboost_regex.a
 	mkdir -p "${R_PACKAGE_DIR}/include/bwa"
 	cp bwa/*.h "${R_PACKAGE_DIR}/include/bwa/"
 	cp libbwa.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
-	cp -L boost_tree/stage/lib/libboost_regex.a "${R_PACKAGE_DIR}/libs${R_ARCH}"
-	cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
+	cp -L boost_tree/stage/lib/libboost_regex.a "${R_PACKAGE_DIR}/usrlib${R_ARCH}"
+	#cp -r boost_tree/boost "${R_PACKAGE_DIR}/include/"
 
 libboost_regex.a:
 	./boost.build.sh

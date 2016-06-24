@@ -63,4 +63,4 @@ cat(sprintf("#  And add $SWAN_BIN to your $PATH evironment \n"))
 cat(sprintf("#                                   \n"))
 cat(sprintf("#####################################\n"))
 
-quit()
+#quit()  #can be used to debug install process
