@@ -62,3 +62,5 @@ cat(sprintf("#  To use SWAN, set environment variable $SWAN_BIN to above path \n
 cat(sprintf("#  And add $SWAN_BIN to your $PATH evironment \n"))
 cat(sprintf("#                                   \n"))
 cat(sprintf("#####################################\n"))
+
+#quit()  #can be used to debug install process

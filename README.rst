@@ -24,11 +24,11 @@ DEPENDENCIES
         through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
   R(>=3.1)
         `R download <http://www.r-project.org>`_
-  Samtools(>=0.19)
+  Samtools(>=0.20)
         `Samtools download <http://www.samtools.org>`_
   CRAN R Libraries
         RcppArmadillo (source), Rcpp (source);
-        BH, data.table, devtools, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
+        data.table, devtools, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
   BioConductor R Libraries
         Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
@@ -36,7 +36,7 @@ INSTALL
 -------------
   
   Following installation process assumes: 
-  (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.19) are already properly installed and in your $PATH; 
+  (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.20) are already properly installed and in your $PATH; 
 
   **Install R Package Dependencies**
   
@@ -47,7 +47,7 @@ INSTALL
     # Some Rcpp packages have to to installed from source, otherwise may cause runtime 'segfault'
     R> install.packages(pkgs=c("Rcpp","RcppArmadillo"),type="source") 
     # If you have "-lgfortran" or "-lquadmath" not found problems from above commands, please see entry in FAQ for fix. It mostly affects Ubuntu<=12, where the libgfortran link is often broken. 
-    R> install.packages(pkgs=c("BH", "data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
+    R> install.packages(pkgs=c("data.table", "devtools", "digest", "hash", "methods", "optparse", "parallel", "plyr", "robustbase", "sets", "stringr", "zoo"))  # other CRAN packages 
     R> source("http://bioconductor.org/biocLite.R")      #Bioconductor
     R> biocLite("BiocUpgrade") #Upgrade your Bioc to latest version compatible with your R version
     # now if you have "Error in unloadNamespace(package)" after "preparing package for lazy loading", please see entry in FAQ for fix. It is most likely R sessions haven't finished updating packages, try reinstall SWAN with a new Shell and R session some time later and it will self correct.
