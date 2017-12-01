@@ -1,15 +1,20 @@
   #!/bin/bash
   
-  #1.  checking options
-  echo "testing SWAN binaries in $SWAN_BIN"
-  if [ -z $1 ]; then
+  #0 prompt the correct usage
+  if [ -z $2 ]; then
     echo "usage:"
-    echo "  single.sh one|two|all"
+    echo "  single.sh $SWAN_BIN one|two|all"
     exit
   fi
-  
+
+  SWAN_BIN=$1
+  NLIB=$2
+
+  #1.  checking options
+  echo "testing SWAN binaries in $SWAN_BIN in the case of $NLIB libraries"
+
   #2.   see details on https://bitbucket.org/charade/swan/wiki/Example#rst-header-a-simple-example-run-for-paired-sample
-  if [ $1 != "two" ]; then
+  if [ $NLIB != "two" ]; then
   echo "testing single sample single read group pipeline..."
   #2.1 single sample single read group:
   #    run swan_stat
@@ -22,7 +27,7 @@
   $SWAN_BIN/swan_join -c a -i example/example.lib1 -j example/example.lib1 -l example/example.lib1.sclip.RData -m example/example.lib1 example/example.fna example/example.lib1.bam
   fi
 
-  if [ $1 != "one" ]; then
+  if [ $NLIB != "one" ]; then
   echo "testing single sample multiple read group pipeline..."
   #2.2 single sample multiple read group pipeline..."
   #    mlib bam file is merged lib1 and lib2 bam files
