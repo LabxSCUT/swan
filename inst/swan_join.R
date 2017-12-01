@@ -704,7 +704,7 @@ if("hot" %in% confirm){
 	    cat("-Info: calculating coverage...",bam_file,",",sn,"\n")
 	    stats=allFunction(seqinfo=GRanges(sn,IRanges(start=1,end=max_chr_len)),bamFile=bam_file,what=c("pos","qwidth"))
 	    cvg_tmp=coverage(IRanges(start=stats[["pos"]][!is.na(stats[["pos"]])],width=stats[["qwidth"]][!is.na(stats[["pos"]])]))
-	    cvg_tmp=IRanges::Rle(c(IRanges::as.vector(cvg_tmp),rep(0,max(0,max_chr_len-length(IRanges::as.vector(cvg_tmp))))))
+	    cvg_tmp=IRanges::Rle(c(base::as.vector(cvg_tmp),rep(0,max(0,max_chr_len-length(base::as.vector(cvg_tmp))))))
 	    mean_cvg_tmp=sum(cvg_tmp/sum(cvg_tmp>0,na.rm=T),na.rm=T)
 	    if(length(rle_cvg1[[sn]])==0) rle_cvg1[[sn]]=cvg_tmp else rle_cvg1[[sn]]=rle_cvg1[[sn]]+cvg_tmp
 			idx=idx+1
@@ -719,7 +719,7 @@ if("hot" %in% confirm){
 				cat("-Info: calculating coverage...",bam_file,",",sn,"\n")
 	      stats=allFunction(seqinfo=GRanges(sn,IRanges(start=1,end=max_chr_len)),bamFile=bam_file,what=c("pos","qwidth"))
 	      cvg_tmp=coverage(IRanges(start=stats[["pos"]][!is.na(stats[["pos"]])],width=stats[["qwidth"]][!is.na(stats[["pos"]])]))
-	      cvg_tmp=IRanges::Rle(c(IRanges::as.vector(cvg_tmp),rep(0,max(0,max_chr_len-length(IRanges::as.vector(cvg_tmp))))))
+	      cvg_tmp=IRanges::Rle(c(base::as.vector(cvg_tmp),rep(0,max(0,max_chr_len-length(base::as.vector(cvg_tmp))))))
 	      mean_cvg_tmp=sum(cvg_tmp/sum(cvg_tmp>0,na.rm=T),na.rm=T)
 	      if(length(rle_cvg0[[sn]])==0) rle_cvg0[[sn]]=cvg_tmp else rle_cvg0[[sn]]=rle_cvg0[[sn]]+cvg_tmp
 				idx=idx+1

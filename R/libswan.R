@@ -307,7 +307,7 @@ call_seqcbs=function(seqname,seqcbs_file,seqcbs_parf,seqcbs_opt,rg_files){
   #print(throw)
   sel = which(tab_seqcbs$stat>minstat)
   #print(tab_seqcbs)
-  pile_track=c(IRanges::as.vector(IRanges::coverage(IRanges(start=tab_seqcbs$cptL[sel],end=tab_seqcbs$cptR[sel]))),rep(0,1000000)) #add some buffer on edge
+  pile_track=c(base::as.vector(IRanges::coverage(IRanges(start=tab_seqcbs$cptL[sel],end=tab_seqcbs$cptR[sel]))),rep(0,1000000)) #add some buffer on edge
   tmp_track=pile_track>0
   #cat("tmp_track="); print(tmp_track)
   cbs_run=filter_calls(tmp_track,supnum=sup,gaplim=gap+2*expand) 
@@ -860,8 +860,8 @@ call_haf_har=function(seqname,swan_file,scan_par,ovrd_file,scan_opt,coverage){ #
   har_track=score2_track>thresh2_track;
   haf_run=filter_calls(haf_track, supnum=sup_thresh/stepsize, gaplim=gap_thresh/stepsize)
   har_run=filter_calls(har_track, supnum=sup_thresh/stepsize, gaplim=gap_thresh/stepsize)
-  haf_vec=IRanges::as.vector(haf_run); haf_vec[is.na(haf_vec)]=F; haf_run=Rle(haf_vec) #convert NA to FALSE, safe if only call for INS 
-  har_vec=IRanges::as.vector(har_run); har_vec[is.na(har_vec)]=F; har_run=Rle(har_vec)
+  haf_vec=base::as.vector(haf_run); haf_vec[is.na(haf_vec)]=F; haf_run=Rle(haf_vec) #convert NA to FALSE, safe if only call for INS 
+  har_vec=base::as.vector(har_run); har_vec[is.na(har_vec)]=F; har_run=Rle(har_vec)
   haf_start=start(haf_run)[runValue(haf_run)]
   har_end=end(har_run)[runValue(har_run)]
   tele_dist=sapply(haf_start,function(x){  b=har_end[har_end>=x]; if(length(b)>0) b[1]-x else NA })
@@ -954,8 +954,8 @@ call_ldr_ldl=function(seqname,swan_file,scan_par,ovrd_file,scan_opt,coverage){
   ldl_track=score2_track>thresh2_track;
   ldr_run=filter_calls(ldr_track, supnum=sup_thresh/stepsize, gaplim=gap_thresh/stepsize)
   ldl_run=filter_calls(ldl_track, supnum=sup_thresh/stepsize, gaplim=gap_thresh/stepsize)
-  ldr_vec=IRanges::as.vector(ldr_run);ldr_vec[is.na(ldr_vec)]=FALSE;ldr_run=Rle(ldr_vec) 
-  ldl_vec=IRanges::as.vector(ldl_run);ldl_vec[is.na(ldl_vec)]=FALSE;ldl_run=Rle(ldl_vec)
+  ldr_vec=base::as.vector(ldr_run);ldr_vec[is.na(ldr_vec)]=FALSE;ldr_run=Rle(ldr_vec) 
+  ldl_vec=base::as.vector(ldl_run);ldl_vec[is.na(ldl_vec)]=FALSE;ldl_run=Rle(ldl_vec)
   ldr_peak=unlist(sapply(seq(nrun(ldr_run)),function(x){if(runValue(ldr_run)[x]) which.max(score1_track[start(ldr_run)[x]:end(ldr_run)[x]])+start(ldr_run)[x]-1}))
   ldl_peak=unlist(sapply(seq(nrun(ldl_run)),function(x){if(runValue(ldl_run)[x]) which.max(score2_track[start(ldl_run)[x]:end(ldl_run)[x]])+start(ldl_run)[x]-1}))
   tele_dist=sapply(ldr_peak,function(x){b=ldl_peak[ldl_peak>=x-back_thresh]; if(length(b)>0) b[1]-x else NA })
