@@ -5,4 +5,4 @@
 
 if [ ! -e "swan_test.tgz" ]; then wget https://s3-us-west-2.amazonaws.com/lixiabucket/swan_test.tgz; fi
 tar -zxvf swan_test.tgz
-($SWAN_BIN/paired.sh all && $SWAN_BIN/single.sh all) >all.log 2>&1
+(paired.sh all && single.sh all) >all.log 2>&1

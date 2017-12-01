@@ -46,7 +46,7 @@ DOCKER
 	Due to the multiple R and Python dependencies involved,
   the easiest way to use SWAN is by the provided docker image. 
   If you have a docker server running, 
-  just git clone the swan package to a local dir say $SWAN_HOME.
+  just need to download the Dockerfile from 
   From $SWAN_HOME 
     
   
