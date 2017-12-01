@@ -2,8 +2,8 @@
 version="REPLACE_WITH_COMMIT_OR_VERSION"
 
 library(swan)
-suppressMessage(for(p in c("digest","plyr","robustbase","optparse")) myrequire(p))
-suppressMessage(for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc"))
+suppressMessages(for(p in c("digest","plyr","robustbase","optparse")) myrequire(p))
+suppressMessages(for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc"))
 #suppressMessages(library(optparse))
 #suppressMessages(library(IRanges))
 #suppressMessages(library(Rsamtools))
