@@ -3546,7 +3546,7 @@ get_MPRs <- function(seq_info,bam_file,RL,Delta,bigDel,smallDel,smallIns,maxInse
   if(verbose) cat(paste(c(bam_file,RL,Delta,bigDel,smallDel,smallIns,hang_clip,prop_clip,maxInsert),sep="\t"),"\n")
   if(verbose) cat("===Info: seq_info\n")
   if(verbose) print(seq_info)
-  seq_name=IRanges::as.vector(seqnames(seq_info))[1]
+  seq_name=base::as.vector(seqnames(seq_info))[1]
   all_what=c("qname","pos","mrnm","mpos","isize","cigar","strand","flag","qwidth")
   all_param=ScanBamParam(flag = scanBamFlag(isDuplicate=F, isNotPassingQualityControls=F),
                             simpleCigar=F, reverseComplement = F, tag = character(0),
@@ -4022,8 +4022,8 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
   #    "min(start(rPbi))=", min(start(rPbi)), "max(end(rPbi))=", max(end(rPbi)), "\n")
   coverage_rle=IRanges::coverage(c(rPc,rMc))
   if(end(winW[n_wins])-length(coverage_rle)>0) # coverage: 0000 t_start ---- t_end 0000, append to length
-    coverage=Rle(c(IRanges::as.vector(coverage_rle),rep(0,end(winW[n_wins])-length(coverage_rle))))
-  cvg_track=IRanges::as.vector(coverage_rle)[start(winW)]
+    coverage=Rle(c(base::as.vector(coverage_rle),rep(0,end(winW[n_wins])-length(coverage_rle))))
+  cvg_track=base::as.vector(coverage_rle)[start(winW)]
   #may slightly over estimate coverage due to random zeros but avoids difficulty handling gaps
   if(verbose) cat("===Info: reliable range=", max(min(start(rPbi)),srange[1]), 
                   min(max(end(rPbi)),end(winW[n_wins])), "\n")
@@ -4484,10 +4484,10 @@ scan_bam = function(bam_file, what, isize_global, isize_sdR_global, isize_sdL_gl
       t_bigd=data.frame(); t_disc=data.frame()
     } else { #in fixed order
       list[t_result, t_par, t_bigd, t_disc]=do.call(scan_joint, joint_par) #t_anch is determined
-      t_result=cbind(t_result,ins=IRanges::as.vector(IRanges::coverage(rSIa))[t_srange]) #ins
-      t_result=cbind(t_result,del=IRanges::as.vector(IRanges::coverage(rSDa))[t_srange]) #del
-      t_result=cbind(t_result,HAF=IRanges::as.vector(IRanges::coverage(rMHp))[t_srange]) #HAF
-      t_result=cbind(t_result,HAR=IRanges::as.vector(IRanges::coverage(rMHn))[t_srange]) #HAR
+      t_result=cbind(t_result,ins=base::as.vector(IRanges::coverage(rSIa))[t_srange]) #ins
+      t_result=cbind(t_result,del=base::as.vector(IRanges::coverage(rSDa))[t_srange]) #del
+      t_result=cbind(t_result,HAF=base::as.vector(IRanges::coverage(rMHp))[t_srange]) #HAF
+      t_result=cbind(t_result,HAR=base::as.vector(IRanges::coverage(rMHn))[t_srange]) #HAR
     }
     scan_result[t_win_start:t_win_end,]=t_result
     scan_bigd=rbind(scan_bigd,t_bigd)

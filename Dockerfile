@@ -19,7 +19,8 @@ RUN cd $HOME/setup/swan && R CMD INSTALL .
 
 ### run test scripts ### 
 RUN cd $HOME/setup/swan/test && wget https://s3-us-west-2.amazonaws.com/lixiabucket/swan_test.tgz -O swan_test.tgz && tar -zxvf swan_test.tgz
-RUN export SWAN_BIN=$HOME/setup/swan/inst && cd $HOME/setup/swan/test && ./swan_test.sh $HOME/setup/swan/inst
+RUN export SWAN_BIN=$HOME/setup/swan/inst && export PATH=$HOME/bin:$SWAN_BIN:$PATH && cd $HOME/setup/swan/test && ./single.sh $HOME/setup/swan/inst all
+RUN export SWAN_BIN=$HOME/setup/swan/inst && export PATH=$HOME/bin:$SWAN_BIN:$PATH && cd $HOME/setup/swan/test && ./paired.sh $HOME/setup/swan/inst all
 
 ### check all.paired.log and all.single.log for errors
 

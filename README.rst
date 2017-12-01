@@ -46,9 +46,12 @@ DOCKER
 	Due to the multiple R and Python dependencies involved,
   the easiest way to use SWAN is by the provided docker image. 
   If you have a docker server running, 
-  just need to download the Dockerfile from 
-  From $SWAN_HOME 
-    
+  just need to download the Dockerfile from into $your_swan_container
+  And run
+
+  ::
+
+    docker build $your_swan_container
   
 
 INSTALL
@@ -103,25 +106,10 @@ INSTALL
   ::
     
     sh> export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
-    sh> $SWAN_BIN/swan_test.sh
+    sh> $SWAN_BIN/swan_test.sh $SWAN_BIN
 
   Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
 
-  **Use SWAN (Without Install)**
-  
-  You can use  Ubuntu or CentOS virtual machines with SWAN pre-installed - easily deployable to cloud computing. 
-  The virtual machine disk images can be found here:
-  Ubuntu: http://meta.usc.edu/softs/vbox/Ubuntu_14_SWAN.vdi.gz;
-  CentOS: http://meta.usc.edu/softs/vbox/CentOS_7_SWAN.vdi.gz.
-  Oracle's free VirtualBox (https://www.virtualbox.org/) among other softwares can be used to load the images. 
-  There are numerous how-to tutorials on Youtube about how to import .vdi to VirtualBox, 
-  for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0). Once the virtual machine is running,
-  you can login with account: **user** and password: **user** and refer to the "README.rst" file on the desktop
-  to proceed. The "action.log" file also contains full commands that required to setup SWAN on the virtual machine. 
-  
-  Details regarding this **INSTALL** section can be also found in the PPT slides here: `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
-
-EXECUTABLES
 ------------
 
   $SWAN_BIN/swan_stat         --  pre-scan lib-wise sequencing statistics
