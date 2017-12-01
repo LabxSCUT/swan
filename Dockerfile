@@ -8,7 +8,7 @@
 #      docker start --memory=2g 301176b69086
 #      docker exec -it 301176b69086 /bin/bash
 #NOTE: merging RUN as file become stable as every RUN creates a commit which has a limit
-FROM charade/xlibbox:zero
+FROM charade/xlibbox:latest
 
 MAINTAINER Charlie Xia <lxia.usc@gmail.com>
 
