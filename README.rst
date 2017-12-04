@@ -1,3 +1,31 @@
+.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/logo.png
+   :alt: logo.png
+   :height: 50px
+   :width: 50px
+
+.. |Rationale| image:: https://bitbucket.org/charade/zoomx/raw/master/doc/images/rationale.png
+   :alt: rationale.png
+   :height: 450px
+   :width: 540px
+
+.. |Pipeline| image:: https://bitbucket.org/charade/zoomx/raw/master/doc/images/pipeline.png
+   :alt: pipeline.png
+   :height: 320px
+   :width: 520px
+
+|Logo| ZoomX - Single Molecule Based Rearrangement Analysis with Linked Read Sequencing
+==========================================================================================
+
+QUICK LINKS
+-----------
+
+`Examples <https://bitbucket.org/charade/zoomx/wiki/Example>`__
+
+`Manuals <https://bitbucket.org/charade/zoomx/wiki/Manual>`__
+
+`FAQ <https://bitbucket.org/charade/zoomx/wiki/FAQ>`__
+
+
 README
 ========
 
