@@ -395,7 +395,7 @@ bnd2vcf=function(bndtab,scL,scR,bam_files,ref_seq,sclip_opt,rle_cvg=NULL,drop_na
       }
       readst=bam1$pos
       readed=readst+cig1[,3]-1
-      readRanges=IRanges(start=as.vector(na.omit(readst)),end=as.vector(na.omit(readed)))
+      readRanges=IRanges(start=based::as.vector(na.omit(readst)),end=base::as.vector(na.omit(readed)))
       if(bndtab$goRight1[sx]==1){
         leftbuffer=clippedbuffer; rightbuffer=mappedbuffer
       } else {
@@ -409,7 +409,7 @@ bnd2vcf=function(bndtab,scL,scR,bam_files,ref_seq,sclip_opt,rle_cvg=NULL,drop_na
       }
       readst=bam2$pos
       readed =readst+cig2[,3]-1
-      readRanges2=IRanges(start=as.vector(na.omit(readst)),end=as.vector(na.omit(readed)))
+      readRanges2=IRanges(start=base::as.vector(na.omit(readst)),end=base::as.vector(na.omit(readed)))
       if(bndtab$goRight2[sx]==1){
           leftbuffer=clippedbuffer; rightbuffer=mappedbuffer
       } else {
@@ -2359,11 +2359,11 @@ merge_rclu=function(lstart,lend,rstart,rend,support){
     pm$add(read_lC[[as.character(i)]],read_rC[[as.character(i)]],support[i])
   }
   lCb = pm$read()
-  as.data.frame(list(lstart=start(lCluster)[as.vector(lCb$x)],
-                     lend=end(lCluster)[as.vector(lCb$x)],
-                     rstart=start(rCluster)[as.vector(lCb$y)],
-                     rend=end(rCluster)[as.vector(lCb$y)],
-                     support=as.vector(lCb$n)))
+  as.data.frame(list(lstart=start(lCluster)[base::as.vector(lCb$x)],
+                     lend=end(lCluster)[base::as.vector(lCb$x)],
+                     rstart=start(rCluster)[base::as.vector(lCb$y)],
+                     rend=end(rCluster)[base::as.vector(lCb$y)],
+                     support=base::as.vector(lCb$n)))
 }
 
 set_isize=function(isize_text,bam_file,seq_info,max_isize=NA){
@@ -3410,7 +3410,7 @@ str_match_all_perl <- function(string,pattern){
 
 get_al_omp <- function(cigar, al_string){
   al=.Call( "get_al_omp", cigar, al_string, PACKAGE="swan" )
-  return(as.vector(al))
+  return(base::as.vector(al))
 }
 
 mate_MPRs_omp <- function(h1st_idx, c1st_MPRs, c2nd_MPRs, impute=F, left=T, self=T){
