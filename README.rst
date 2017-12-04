@@ -1,9 +1,9 @@
-.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/logo.png
+.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_logo.png
    :alt: logo.png
    :height: 50px
-   :width: 50px
+   :width: 100px
 
-.. |Rationale| image:: https://bitbucket.org/charade/zoomx/raw/master/doc/images/rationale.png
+.. |Rationale| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_rationale.png
    :alt: rationale.png
    :height: 450px
    :width: 540px
