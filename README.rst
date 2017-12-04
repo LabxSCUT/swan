@@ -38,21 +38,26 @@ DEPENDENCIES
   BioConductor R Libraries
         Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
-DOCKER
+DOCKER (All Platforms)
 -------------
 
   Due to the multiple R and Python dependencies involved,
-  the easiest way to use SWAN is by the provided docker image.
+  the easiest way to use SWAN is by the provided docker image build file.
+  A Dockerfile is provided to build zoomx enabled docker image from a standard Ubuntu docker image.
+  If you are not familiar with Docker, it is a container platform widely used in industry/academia. 
+  Here is the link to the Docker community:
+    `docker community <https://www.docker.com>`_ .
   If you have a docker server running, 
-  just need to download the Dockerfile from into $your_swan_container
-  And run
+  just need to download the Dockerfile from: 
+    `dockerfile <https://bitbucket.org/charade/zoomx/raw/master/Dockerfile>`_
+  into $your_swan_container and run:
 
   ::
 
     docker build $your_swan_container
   
 
-INSTALL
+INSTALL (Linux/Ubuntu)
 -------------
   
   Following installation process assumes: 
@@ -84,8 +89,8 @@ INSTALL
   **Test SWAN**
 
   Note by default the SWAN executables will be available from path: $SWAN_BIN=$R_LIBS_USER/library/swan.
-  However, the exact naming of the $R_LIBS_USER is system and user specific and can only be determined at install time.
-  The path will show up in the final '#' surrounded banner looks like below:
+  However, the exact naming of the $R_LIBS_USER is system and/or user specific and can only be determined at the install time.
+  Your $SWAN_BIN path will show up in the final '#' surrounded banner looks like below:
 
   ::
 
@@ -99,14 +104,21 @@ INSTALL
     #####################################
   
   In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add this $SWAN_BIN to $PATH.
-  Now, do a Sanity check for installation and learn single or paired sample analysis pipelines.
+  Alternatively, you might want to install R package through shell that you can pre-specify $SWAN_BIN before installation. For example, to install swan to SWAN_BIN=$HOME/setup/swan/inst,
+
+  ::
+  
+    bash> cd $HOME/setup && git clone https://bitbucket.org/charade/swan.git
+    bash> export SWAN_BIN=$HOME/setup/swan/inst && cd $HOME/setup && R CMD INSTALL swan
+
+  After installation, please do a sanity check for and learn the usage of single or paired sample analysis pipelines.
 
   ::
     
-    sh> export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
-    sh> $SWAN_BIN/swan_test.sh $SWAN_BIN
+    bash> export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
+    bash> $SWAN_BIN/swan_test.sh $SWAN_BIN
 
-  Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
+  If the executables were moved to other places and the user has to update $SWAN_BIN and $PATH accordingly.
 
 ------------
 
