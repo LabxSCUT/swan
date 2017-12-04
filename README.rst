@@ -1,4 +1,4 @@
-.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_logo.png
+.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_logo.jpg
    :alt: logo.png
    :height: 50px
    :width: 100px
