@@ -395,7 +395,7 @@ bnd2vcf=function(bndtab,scL,scR,bam_files,ref_seq,sclip_opt,rle_cvg=NULL,drop_na
       }
       readst=bam1$pos
       readed=readst+cig1[,3]-1
-      readRanges=IRanges(start=based::as.vector(na.omit(readst)),end=base::as.vector(na.omit(readed)))
+      readRanges=IRanges(start=base::as.vector(na.omit(readst)),end=base::as.vector(na.omit(readed)))
       if(bndtab$goRight1[sx]==1){
         leftbuffer=clippedbuffer; rightbuffer=mappedbuffer
       } else {
@@ -4131,16 +4131,16 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
     block_Sr_term=lD_omp(block_rSr_winDl,start(block_winW),start(rSr),Fs,block_w_end-block_w_start+1,mixing_rate,q_right,left=TRUE)
     block_Sl_term=lD_omp(block_rSl_winDr,end(block_winW),start(rSl),Fs,block_w_end-block_w_start+1,mixing_rate,q_left,left=FALSE)
     lW_term[block_w_start:block_w_end]=block_lW_term
-    lCd_term[block_w_start:block_w_end]=as.vector(block_Cd_term[["lC_term"]])
-    cCd_term[block_w_start:block_w_end]=as.vector(block_Cd_term[["cC_term"]])
-    lCi_term[block_w_start:block_w_end]=as.vector(block_Ci_term[["lC_term"]])
-    cCi_term[block_w_start:block_w_end]=as.vector(block_Ci_term[["cC_term"]])
-    lDl_term[block_w_start:block_w_end]=as.vector(block_Dl_term[["lD_term"]])
-    cDl_term[block_w_start:block_w_end]=as.vector(block_Dl_term[["cD_term"]])
-    lDr_term[block_w_start:block_w_end]=as.vector(block_Dr_term[["lD_term"]])
-    cDr_term[block_w_start:block_w_end]=as.vector(block_Dr_term[["cD_term"]])
-    lSl_term[block_w_start:block_w_end]=as.vector(block_Sl_term[["lD_term"]])
-    lSr_term[block_w_start:block_w_end]=as.vector(block_Sr_term[["lD_term"]])
+    lCd_term[block_w_start:block_w_end]=base::as.vector(block_Cd_term[["lC_term"]])
+    cCd_term[block_w_start:block_w_end]=base::as.vector(block_Cd_term[["cC_term"]])
+    lCi_term[block_w_start:block_w_end]=base::as.vector(block_Ci_term[["lC_term"]])
+    cCi_term[block_w_start:block_w_end]=base::as.vector(block_Ci_term[["cC_term"]])
+    lDl_term[block_w_start:block_w_end]=base::as.vector(block_Dl_term[["lD_term"]])
+    cDl_term[block_w_start:block_w_end]=base::as.vector(block_Dl_term[["cD_term"]])
+    lDr_term[block_w_start:block_w_end]=base::as.vector(block_Dr_term[["lD_term"]])
+    cDr_term[block_w_start:block_w_end]=base::as.vector(block_Dr_term[["cD_term"]])
+    lSl_term[block_w_start:block_w_end]=base::as.vector(block_Sl_term[["lD_term"]])
+    lSr_term[block_w_start:block_w_end]=base::as.vector(block_Sr_term[["lD_term"]])
   }
 
   if(length(rPbo)!=0){

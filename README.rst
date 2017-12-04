@@ -4,11 +4,9 @@ README
 INTRODUCTION
 --------------
   Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
+
   SWAN is an RcppArmadillo package. Please also read general online information to install R and Rcpp packages before proceed. 
  
-  There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
-    `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
-
   Many of the installation questions are also answered in FAQ:
     `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
 
@@ -43,8 +41,8 @@ DEPENDENCIES
 DOCKER
 -------------
 
-	Due to the multiple R and Python dependencies involved,
-  the easiest way to use SWAN is by the provided docker image. 
+  Due to the multiple R and Python dependencies involved,
+  the easiest way to use SWAN is by the provided docker image.
   If you have a docker server running, 
   just need to download the Dockerfile from into $your_swan_container
   And run
