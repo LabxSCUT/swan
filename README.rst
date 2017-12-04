@@ -8,11 +8,6 @@
    :height: 450px
    :width: 540px
 
-.. |Pipeline| image:: https://bitbucket.org/charade/zoomx/raw/master/doc/images/pipeline.png
-   :alt: pipeline.png
-   :height: 320px
-   :width: 520px
-
 |Logo| SWAN - Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
 ==========================================================================================
 
@@ -31,6 +26,20 @@ README
 
 INTRODUCTION
 --------------
+
+  SWAN - Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
+
+  - SWAN analyzes whole genome sequencing data sets to identify structural variants.
+
+  - SWAN currently supports shot-gun whole genome sequencing data from Illumina platforms.
+
+  - SWAN takes as input the BAM file output of BWA aligner or others and outputs a list of structural variants in BED/VCF format.
+
+  - SWAN's modeling and pipeline are illustrated in Figures 1. 
+
+  Figure 1. The principle and workflow of SWAN.
+
+  |Rationale|
 
   SWAN is an RcppArmadillo package. Please also read general online information to install R and Rcpp packages before proceed. 
  
