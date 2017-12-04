@@ -54,7 +54,7 @@ DOCKER (All Platforms)
 
   ::
 
-    docker build $your_swan_container
+    docker build --no-cache $your_swan_container
   
 
 INSTALL (Linux/Ubuntu)
