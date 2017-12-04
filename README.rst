@@ -1,4 +1,4 @@
-.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_logo.jpg
+.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_logo.png
    :alt: logo.png
    :height: 50px
    :width: 100px
@@ -177,3 +177,9 @@ BUG
 CONTACT
 --------
   lixia at stanford dot edu
+
+CITATIONS
+-----------------
+
+  1. Li C. Xia, Sukolsak Sakshuwong, Erik Hopmans, John Bell, Susan Grimes, David Siegmund, Hanlee Ji, Nancy Zhang. A genome-wide approach for detecting novel insertion-deletion variants of mid-range size. Nucleic Acids Research (2016) 44 (15): e126 (https://doi.org/10.1093/nar/gkw481)
+  2. Nancy R Zhang, Benjamin Yakir, Li C Xia, David Siegmund. Scan statistics on poisson random fields with applications in genomics. Annals of Applied Statistics (2016) Volume 10, Number 2 (2016), 726-755 (https://doi.org/10.1214/15-AOAS892)
