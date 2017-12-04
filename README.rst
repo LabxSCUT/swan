@@ -13,7 +13,7 @@
    :height: 320px
    :width: 520px
 
-|Logo| ZoomX - Single Molecule Based Rearrangement Analysis with Linked Read Sequencing
+|Logo| SWAN - Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
 ==========================================================================================
 
 QUICK LINKS
@@ -31,7 +31,6 @@ README
 
 INTRODUCTION
 --------------
-  Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
 
   SWAN is an RcppArmadillo package. Please also read general online information to install R and Rcpp packages before proceed. 
  
