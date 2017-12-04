@@ -14,11 +14,11 @@
 QUICK LINKS
 -----------
 
-`Examples <https://bitbucket.org/charade/zoomx/wiki/Example>`__
+`Examples <https://bitbucket.org/charade/swan/wiki/Example>`__
 
-`Manuals <https://bitbucket.org/charade/zoomx/wiki/Manual>`__
+`Manuals <https://bitbucket.org/charade/swan/wiki/Manual>`__
 
-`FAQ <https://bitbucket.org/charade/zoomx/wiki/FAQ>`__
+`FAQ <https://bitbucket.org/charade/swan/wiki/FAQ>`__
 
 
 README
@@ -41,21 +41,31 @@ INTRODUCTION
 
   |Rationale|
 
-  SWAN is an RcppArmadillo package. Please also read general online information to install R and Rcpp packages before proceed. 
- 
-  Many of the installation questions are also answered in FAQ:
-    `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
+  - SWAN is an RcppArmadillo package. It works OS platform independently (through Docker). 
+    It installs on Linux (tested for Ubuntu). 
+    It might also install for Mac (with Macports and Homebrew) and Windows (with Cygwin). 
+    However, these were not tested.
 
-  Currently the package works for Linux (tested for Ubuntu).
+DOCKER (Platform Indepedent)
+-------------------------------
 
-  It might also work for Mac (with Macports and Homebrew) and Windows (with Cygwin). 
-  These are not tested.
+  Due to the multiple R and Python dependencies involved,
+  the easiest way to use SWAN is by the provided docker image build file.
+  A Dockerfile is provided to build SWAN enabled docker image from a standard Ubuntu docker image.
+  If you are not familiar with Docker, it is a container platform widely used in industry/academia. 
+  Here is the link to the Docker community:
+    `docker community <https://www.docker.com>`_ .
+  If you have a docker server running, 
+  just need to download the Dockerfile from: 
+    `dockerfile <https://bitbucket.org/charade/swan/raw/master/Dockerfile>`_
+  into $your_swan_container and run:
 
-  Active SWAN documentation effort is on SWAN Wiki:
-  `Wiki <http://bitbucket.org/charade/swan/wiki>`_
+  ::
 
-DEPENDENCIES
---------------
+    docker build --no-cache $your_swan_container
+
+DEPENDENCIES (All Platforms)
+---------------------------------
 
   GCC(>=3.4)
         through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
@@ -74,27 +84,8 @@ DEPENDENCIES
   BioConductor R Libraries
         Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
-DOCKER (All Platforms)
--------------
-
-  Due to the multiple R and Python dependencies involved,
-  the easiest way to use SWAN is by the provided docker image build file.
-  A Dockerfile is provided to build SWAN enabled docker image from a standard Ubuntu docker image.
-  If you are not familiar with Docker, it is a container platform widely used in industry/academia. 
-  Here is the link to the Docker community:
-    `docker community <https://www.docker.com>`_ .
-  If you have a docker server running, 
-  just need to download the Dockerfile from: 
-    `dockerfile <https://bitbucket.org/charade/swan/raw/master/Dockerfile>`_
-  into $your_swan_container and run:
-
-  ::
-
-    docker build --no-cache $your_swan_container
-  
-
 INSTALL (Linux/Ubuntu)
--------------
+--------------------------
   
   Following installation process assumes: 
   (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.20) are already properly installed and in your $PATH; 
