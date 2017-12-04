@@ -7,7 +7,7 @@
 #      merge multi RUN lines as one it becomes stable as every line creates a commit which has a limit
 FROM charade/xlibbox:latest
 
-MAINTAINER Charlie Xia <lxia.usc@gmail.com>
+MAINTAINER Charlie Xia <xia.stanford@gmail.com>
 
 WORKDIR $HOME/
 ENV PATH "PATH=$PATH:$HOME/bin"

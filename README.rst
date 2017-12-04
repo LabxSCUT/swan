@@ -43,13 +43,13 @@ DOCKER (All Platforms)
 
   Due to the multiple R and Python dependencies involved,
   the easiest way to use SWAN is by the provided docker image build file.
-  A Dockerfile is provided to build zoomx enabled docker image from a standard Ubuntu docker image.
+  A Dockerfile is provided to build SWAN enabled docker image from a standard Ubuntu docker image.
   If you are not familiar with Docker, it is a container platform widely used in industry/academia. 
   Here is the link to the Docker community:
     `docker community <https://www.docker.com>`_ .
   If you have a docker server running, 
   just need to download the Dockerfile from: 
-    `dockerfile <https://bitbucket.org/charade/zoomx/raw/master/Dockerfile>`_
+    `dockerfile <https://bitbucket.org/charade/swan/raw/master/Dockerfile>`_
   into $your_swan_container and run:
 
   ::
