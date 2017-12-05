@@ -62,7 +62,8 @@ $(info $$RCPP_LDFLAGS is [${RCPP_LDFLAGS}])
 PKG_CXXFLAGS += -fPIC $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS) -I./boost_tree
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
 PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
-PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
+#PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
+PKG_LIBS += $(RCPP_LDFLAGS) -lgomp 
 PKG_LIBS += -lz
 #Note importantly:
 #  -lz has to be last, else will cause it not linked
