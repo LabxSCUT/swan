@@ -41,6 +41,7 @@ ARMA_CXXFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::C
 $(info $$ARMA_CXXFLAGS is [${ARMA_CXXFLAGS}])
 RCPP_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "Rcpp:::LdFlags()" )
 $(info $$RCPP_LDFLAGS is [${RCPP_LDFLAGS}])
+
 #ARMA_LDFLAGS = $(shell $(R_HOME)/bin$(R_ARCH_BIN)/Rscript -e "RcppArmadillo:::LdFlags()" ) #ARMA_LDFLAGS is not needed
 
 #INTEGRATE BOOST
@@ -63,7 +64,7 @@ PKG_CXXFLAGS += -fPIC $(RCPP_CXXFLAGS) $(ARMA_CXXFLAGS) -I./boost_tree
 PKG_CFLAGS += $(DFLAGS) -I./samtools -I./bwa
 PKG_LIBS += "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbam.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libbwa.a" "${R_PACKAGE_DIR}/usrlib${R_ARCH}/libboost_regex.a"
 #PKG_LIBS += $(RCPP_LDFLAGS) -fopenmp -lgomp 
-PKG_LIBS += $(RCPP_LDFLAGS) -lgomp 
+PKG_LIBS += $(RCPP_LDFLAGS)
 PKG_LIBS += -lz
 #Note importantly:
 #  -lz has to be last, else will cause it not linked

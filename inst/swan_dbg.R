@@ -6,7 +6,7 @@ suppressMessages(library(robustbase))
 suppressMessages(library(swan))
 suppressMessages(library(hash))
 suppressMessages(library(zoo))
-suppressMessages(library(Cairo))
+#suppressMessages(library(Cairo))
 gtk=proc.time()[3]
 options(warn=2)
 
@@ -237,14 +237,15 @@ for(bi in seq_len(plot_blocks)){ #bi=1   how many blocks needed to plot the whol
   }
   tryCatch({
     g=do.call("arrangeGrob",c(plots,ncol=1))
-    a=ggsave(filename=paste(sig_plot,"png",sep="."),plot=g,width=14*wh,height=14,units="in")}
+    a=ggsave(filename=paste(sig_plot,"pdf",sep="."),plot=g,width=14*wh,height=14,units="in")}
     ,error=function(e){
       if(verbose) { cat("==Warn: plot error, nothing in block",bi,":",min_pos,"-",max_pos,"\n"); print(e) }})
-  if(!file.exists(paste(sig_plot,"png",sep="."))) next
+  if(!file.exists(paste(sig_plot,"pdf",sep="."))) next
   
   ### now we plot the RData information ###
   if(verbose) cat("==Info: min_pos", min_pos,"max_pos", max_pos, "\n")
-  CairoPNG(filename=paste(dat_plot,"png",sep="."),height=14,width=14*wh,res=600,units="in")
+  pdf(filename=paste(dat_plot,"pdf",sep="."),height=14,width=14*wh)
+  #CairoPNG(filename=paste(dat_plot,"png",sep="."),height=14,width=14*wh,res=600,units="in")
   par(mfrow=c(length(compares),1))
   for(c in compares){ #c="isize"
     dat_x1=min_pos:max_pos;dat_x2=dat_x1;legcol=c("red","blue")
@@ -314,8 +315,8 @@ for(bi in seq_len(plot_blocks)){ #bi=1   how many blocks needed to plot the whol
     plot_pair(dat_x1,dat_y1,dat_x2,dat_y2,min_pos,max_pos,ylab,leglab,legcol,xticks[tick_sel],yticks[tick_sel])
   }
   dev.off() #end data_plot.png
-  if(verbose) cat("==Info: plotted",paste(sig_plot,"png",sep="."),"so far take ",taggie(gtk)," s\n")
-  if(verbose) cat("==Info: plotted",paste(dat_plot,"png",sep="."),"so far take ",taggie(gtk)," s\n")
+  if(verbose) cat("==Info: plotted",paste(sig_plot,"pdf",sep="."),"so far take ",taggie(gtk)," s\n")
+  if(verbose) cat("==Info: plotted",paste(dat_plot,"pdf",sep="."),"so far take ",taggie(gtk)," s\n")
 }
 cat("-Info: plot safely done\n")
 cat("warnings if any\n")

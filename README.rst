@@ -7,13 +7,16 @@ INTRODUCTION
   SWAN is an RcppArmadillo package. Please also read general online information to install R and Rcpp packages before proceed. 
  
   There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
-  `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
+    `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
 
   Many of the installation questions are also answered in FAQ:
-  `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
+    `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
 
-  Currently the package works for Linux (tested for Ubuntu and CentOS) and Mac (with Macports and Homebrew).
-  It might also work for Windows with Cygwin (not tested).
+  Currently the package works for Linux (tested for Ubuntu).
+
+  It might also work for Mac (with Macports and Homebrew) and Windows (with Cygwin). 
+  These are not tested.
+
   Active SWAN documentation effort is on SWAN Wiki:
   `Wiki <http://bitbucket.org/charade/swan/wiki>`_
 
@@ -22,15 +25,31 @@ DEPENDENCIES
 
   GCC(>=3.4)
         through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
+
   R(>=3.1)
         `R download <http://www.r-project.org>`_
+
   Samtools(>=0.20)
         `Samtools download <http://www.samtools.org>`_
+
   CRAN R Libraries
-        RcppArmadillo (source), Rcpp (source);
-        data.table, devtools, digest, hash, methods, optparse, parallel, plyr, robustbase, sets, stringr, zoo
+        RcppArmadillo (source), Rcpp (source),
+        data.table, devtools, digest, hash, methods, optparse, parallel, plyr, 
+        robustbase, sets, stringr, zoo
+
   BioConductor R Libraries
         Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
+
+DOCKER
+-------------
+
+	Due to the multiple R and Python dependencies involved,
+  the easiest way to use SWAN is by the provided docker image. 
+  If you have a docker server running, 
+  just need to download the Dockerfile from 
+  From $SWAN_HOME 
+    
+  
 
 INSTALL
 -------------

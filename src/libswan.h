@@ -1,8 +1,8 @@
 #ifndef _LIBSWAN
 #define _LIBSWAN
 
-#ifdef SUPPORT_OPENMP
-#include <omp.h>
+#ifdef _OPENMP
+  #include <omp.h>
 #endif /* Platform Supports Openmp, see https://cran.r-project.org/doc/manuals/r-release/R-exts.html#OpenMP-support */
 
 // [[Rcpp::depends(BH)]]
