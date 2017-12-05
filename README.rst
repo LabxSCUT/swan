@@ -1,27 +1,71 @@
+.. |Logo| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_logo.png
+   :alt: logo.png
+   :height: 50px
+   :width: 100px
+
+.. |Rationale| image:: https://bitbucket.org/charade/swan/raw/master/doc/images/swan_rationale.png
+   :alt: rationale.png
+   :height: 450px
+   :width: 540px
+
+|Logo| SWAN - Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
+==========================================================================================
+
+QUICK LINKS
+-----------
+
+`Examples <https://bitbucket.org/charade/swan/wiki/Example>`__
+
+`Manuals <https://bitbucket.org/charade/swan/wiki/Manual>`__
+
+`FAQ <https://bitbucket.org/charade/swan/wiki/FAQ>`__
+
+
 README
 ========
 
 INTRODUCTION
 --------------
-  Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
-  SWAN is an RcppArmadillo package. Please also read general online information to install R and Rcpp packages before proceed. 
- 
-  There is a detailed PPT tutorial for install SWAN on Linux/OSX: 
-    `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
 
-  Many of the installation questions are also answered in FAQ:
-    `FAQ <http://bitbucket.org/charade/swan/wiki/FAQ>`_
+  SWAN - Statistical Structural Variant Analysis for NGS (S2VAN, SWAN)
 
-  Currently the package works for Linux (tested for Ubuntu).
+  - SWAN analyzes whole genome sequencing data sets to identify structural variants.
 
-  It might also work for Mac (with Macports and Homebrew) and Windows (with Cygwin). 
-  These are not tested.
+  - SWAN currently supports shot-gun whole genome sequencing data from Illumina platforms.
 
-  Active SWAN documentation effort is on SWAN Wiki:
-  `Wiki <http://bitbucket.org/charade/swan/wiki>`_
+  - SWAN takes as input the BAM file output of BWA aligner or others and outputs a list of structural variants in BED/VCF format.
 
-DEPENDENCIES
---------------
+  - SWAN's modeling and pipeline are illustrated in Figures 1. 
+
+  Figure 1. The principle and workflow of SWAN.
+
+  |Rationale|
+
+  - SWAN is an RcppArmadillo package. It works OS platform independently (through Docker). 
+    It installs on Linux (tested for Ubuntu). 
+    It might also install for Mac (with Macports and Homebrew) and Windows (with Cygwin). 
+    However, these were not tested.
+
+DOCKER (Platform Indepedent)
+-------------------------------
+
+  Due to the multiple R and Python dependencies involved,
+  the easiest way to use SWAN is by the provided docker image build file.
+  A Dockerfile is provided to build SWAN enabled docker image from a standard Ubuntu docker image.
+  If you are not familiar with Docker, it is a container platform widely used in industry/academia. 
+  Here is the link to the Docker community:
+    `docker community <https://www.docker.com>`_ .
+  If you have a docker server running, 
+  just need to download the Dockerfile from: 
+    `dockerfile <https://bitbucket.org/charade/swan/raw/master/Dockerfile>`_
+  into $your_swan_container and run:
+
+  ::
+
+    docker build --no-cache $your_swan_container
+
+DEPENDENCIES (All Platforms)
+---------------------------------
 
   GCC(>=3.4)
         through apt-get(Ubuntu), yum(CentOS), macports(OSX), homebrew(OSX) 
@@ -40,19 +84,8 @@ DEPENDENCIES
   BioConductor R Libraries
         Biobase, Biostrings, BSgenome, GenomeInfoDb, GenomicRanges, IRanges, Rsamtools
 
-DOCKER
--------------
-
-	Due to the multiple R and Python dependencies involved,
-  the easiest way to use SWAN is by the provided docker image. 
-  If you have a docker server running, 
-  just need to download the Dockerfile from 
-  From $SWAN_HOME 
-    
-  
-
-INSTALL
--------------
+INSTALL (Linux/Ubuntu)
+--------------------------
   
   Following installation process assumes: 
   (1) GCC(>=4.3), R(>=3.1), Samtools(>=0.20) are already properly installed and in your $PATH; 
@@ -83,8 +116,8 @@ INSTALL
   **Test SWAN**
 
   Note by default the SWAN executables will be available from path: $SWAN_BIN=$R_LIBS_USER/library/swan.
-  However, the exact naming of the $R_LIBS_USER is system and user specific and can only be determined at install time.
-  The path will show up in the final '#' surrounded banner looks like below:
+  However, the exact naming of the $R_LIBS_USER is system and/or user specific and can only be determined at the install time.
+  Your $SWAN_BIN path will show up in the final '#' surrounded banner looks like below:
 
   ::
 
@@ -98,30 +131,22 @@ INSTALL
     #####################################
   
   In this case, to run the test scripts, the user should export $SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin and add this $SWAN_BIN to $PATH.
-  Now, do a Sanity check for installation and learn single or paired sample analysis pipelines.
+  Alternatively, you might want to install R package through shell that you can pre-specify $SWAN_BIN before installation. For example, to install swan to SWAN_BIN=$HOME/setup/swan/inst,
+
+  ::
+  
+    bash> cd $HOME/setup && git clone https://bitbucket.org/charade/swan.git
+    bash> export SWAN_BIN=$HOME/setup/swan/inst && cd $HOME/setup && R CMD INSTALL swan
+
+  After installation, please do a sanity check for and learn the usage of single or paired sample analysis pipelines.
 
   ::
     
-    sh> export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
-    sh> $SWAN_BIN/swan_test.sh
+    bash> export SWAN_BIN=/Users/charlie/Library/R/3.2/library/swan/bin
+    bash> $SWAN_BIN/swan_test.sh $SWAN_BIN
 
-  Afterwards, the executables can be moved to other places as the user need and the user need to update $SWAN_BIN and $PATH accordingly.
+  If the executables were moved to other places and the user has to update $SWAN_BIN and $PATH accordingly.
 
-  **Use SWAN (Without Install)**
-  
-  You can use  Ubuntu or CentOS virtual machines with SWAN pre-installed - easily deployable to cloud computing. 
-  The virtual machine disk images can be found here:
-  Ubuntu: http://meta.usc.edu/softs/vbox/Ubuntu_14_SWAN.vdi.gz;
-  CentOS: http://meta.usc.edu/softs/vbox/CentOS_7_SWAN.vdi.gz.
-  Oracle's free VirtualBox (https://www.virtualbox.org/) among other softwares can be used to load the images. 
-  There are numerous how-to tutorials on Youtube about how to import .vdi to VirtualBox, 
-  for example this one (https://www.youtube.com/watch?v=fLyriYu0lU0). Once the virtual machine is running,
-  you can login with account: **user** and password: **user** and refer to the "README.rst" file on the desktop
-  to proceed. The "action.log" file also contains full commands that required to setup SWAN on the virtual machine. 
-  
-  Details regarding this **INSTALL** section can be also found in the PPT slides here: `tutorial <http://bitbucket.org/charade/swan/wiki/doc/SWAN_Installation.pptx>`_
-
-EXECUTABLES
 ------------
 
   $SWAN_BIN/swan_stat         --  pre-scan lib-wise sequencing statistics
@@ -152,3 +177,9 @@ BUG
 CONTACT
 --------
   lixia at stanford dot edu
+
+CITATIONS
+-----------------
+
+  1. Li C. Xia, Sukolsak Sakshuwong, Erik Hopmans, John Bell, Susan Grimes, David Siegmund, Hanlee Ji, Nancy Zhang. A genome-wide approach for detecting novel insertion-deletion variants of mid-range size. Nucleic Acids Research (2016) 44 (15): e126 (https://doi.org/10.1093/nar/gkw481)
+  2. Nancy R Zhang, Benjamin Yakir, Li C Xia, David Siegmund. Scan statistics on poisson random fields with applications in genomics. Annals of Applied Statistics (2016) Volume 10, Number 2 (2016), 726-755 (https://doi.org/10.1214/15-AOAS892)

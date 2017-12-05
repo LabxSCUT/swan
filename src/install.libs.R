@@ -35,17 +35,22 @@ build_files <- c(R_builds, r_builds, sh_builds, py_builds)
 for( i in seq_along(script_files) ){
   x <- readLines(script_files[i])
   y <- gsub( "REPLACE_WITH_COMMIT_OR_VERSION", version, x )
-  cat(y, file=build_files[i], sep="\n")
-  Sys.chmod(build_files[i],mode="0755")
+  cat(y, file=paste(build_files[i],".bld",sep=""), sep="\n")
+  Sys.chmod(paste(build_files[i],".bld",sep=""), mode="0755")
 }
-build_files <- c(build_files,test_scripts)
+tmp_build_files = paste(build_files, ".bld", sep="")
+build_files <- basename(c(build_files,test_scripts))
+tmp_build_files <- c(tmp_build_files,test_scripts)
 
 bin_dest=Sys.getenv('SWAN_BIN')
 if(bin_dest=="") bin_dest <- dirname(file.path(Sys.getenv("R_LIBS_USER"),"swan","bin"))
 dir.create(bin_dest, recursive = TRUE, showWarnings = FALSE)
 n=length(build_files)
-message(paste(rep("Installing",n), build_files, rep("to",n), rep(bin_dest,n), collapse="\n"))
-file.copy(build_files, bin_dest, overwrite = TRUE)
+for( i in seq_along(build_files) ){
+  message(paste("Installing ", tmp_build_files[i], " to ", 
+          paste(bin_dest, build_files[i], sep="/")))
+  file.copy(tmp_build_files[i], paste(bin_dest, build_files[i], sep="/"), overwrite = TRUE)
+}
 
 cat(paste("library search paths:",.libPaths(),"\n"))
 #source("http://bioconductor.org/biocLite.R")

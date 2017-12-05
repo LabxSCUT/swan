@@ -2,8 +2,8 @@
 version="REPLACE_WITH_COMMIT_OR_VERSION"
 
 library(swan)
-for(p in c("digest","plyr","robustbase","optparse")) myrequire(p)
-for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc")
+suppressMessages(for(p in c("digest","plyr","robustbase","optparse")) myrequire(p))
+suppressMessages(for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc"))
 #suppressMessages(library(optparse))
 #suppressMessages(library(IRanges))
 #suppressMessages(library(Rsamtools))
@@ -225,8 +225,13 @@ for(ix in seq_along(ref_seq)){
     cat("-Info: calculating coverage...",bam_file,",",sn,",")
     #this is assumed that genome are evenly covered
     #it is user's responsibility to provide a .stat file by running swan_stat on the bam input file
-    rl1[idx]=read.table(stat_files[[n_sp]], header=T)$rl[1]
-    mean_cvg_tmp=sum(read.table(stat_files[[n_sp]], header=T)$cvg)
+    tryCatch({
+      rl1[idx]=read.table(stat_files[[n_sp]], header=T)$rl[1]
+      mean_cvg_tmp=sum(read.table(stat_files[[n_sp]], header=T)$cvg)
+    }, error=function(e) {
+      cat("-Warn: cant load from ", stat_files[[n_sp]], " ! Check your swan_stat log\n")
+    })
+    
     if(fineconf) { # actually load bam file by fine mode
 		  nreads=count_bam(bam_file,sn); 
 		  mean_cvg_tmp=nreads*rl1[idx]/ref_len[ix]

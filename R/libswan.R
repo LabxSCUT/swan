@@ -395,7 +395,7 @@ bnd2vcf=function(bndtab,scL,scR,bam_files,ref_seq,sclip_opt,rle_cvg=NULL,drop_na
       }
       readst=bam1$pos
       readed=readst+cig1[,3]-1
-      readRanges=IRanges(start=as.vector(na.omit(readst)),end=as.vector(na.omit(readed)))
+      readRanges=IRanges(start=base::as.vector(na.omit(readst)),end=base::as.vector(na.omit(readed)))
       if(bndtab$goRight1[sx]==1){
         leftbuffer=clippedbuffer; rightbuffer=mappedbuffer
       } else {
@@ -409,7 +409,7 @@ bnd2vcf=function(bndtab,scL,scR,bam_files,ref_seq,sclip_opt,rle_cvg=NULL,drop_na
       }
       readst=bam2$pos
       readed =readst+cig2[,3]-1
-      readRanges2=IRanges(start=as.vector(na.omit(readst)),end=as.vector(na.omit(readed)))
+      readRanges2=IRanges(start=base::as.vector(na.omit(readst)),end=base::as.vector(na.omit(readed)))
       if(bndtab$goRight2[sx]==1){
           leftbuffer=clippedbuffer; rightbuffer=mappedbuffer
       } else {
@@ -2359,11 +2359,11 @@ merge_rclu=function(lstart,lend,rstart,rend,support){
     pm$add(read_lC[[as.character(i)]],read_rC[[as.character(i)]],support[i])
   }
   lCb = pm$read()
-  as.data.frame(list(lstart=start(lCluster)[as.vector(lCb$x)],
-                     lend=end(lCluster)[as.vector(lCb$x)],
-                     rstart=start(rCluster)[as.vector(lCb$y)],
-                     rend=end(rCluster)[as.vector(lCb$y)],
-                     support=as.vector(lCb$n)))
+  as.data.frame(list(lstart=start(lCluster)[base::as.vector(lCb$x)],
+                     lend=end(lCluster)[base::as.vector(lCb$x)],
+                     rstart=start(rCluster)[base::as.vector(lCb$y)],
+                     rend=end(rCluster)[base::as.vector(lCb$y)],
+                     support=base::as.vector(lCb$n)))
 }
 
 set_isize=function(isize_text,bam_file,seq_info,max_isize=NA){
@@ -3410,7 +3410,7 @@ str_match_all_perl <- function(string,pattern){
 
 get_al_omp <- function(cigar, al_string){
   al=.Call( "get_al_omp", cigar, al_string, PACKAGE="swan" )
-  return(as.vector(al))
+  return(base::as.vector(al))
 }
 
 mate_MPRs_omp <- function(h1st_idx, c1st_MPRs, c2nd_MPRs, impute=F, left=T, self=T){
@@ -3546,7 +3546,7 @@ get_MPRs <- function(seq_info,bam_file,RL,Delta,bigDel,smallDel,smallIns,maxInse
   if(verbose) cat(paste(c(bam_file,RL,Delta,bigDel,smallDel,smallIns,hang_clip,prop_clip,maxInsert),sep="\t"),"\n")
   if(verbose) cat("===Info: seq_info\n")
   if(verbose) print(seq_info)
-  seq_name=IRanges::as.vector(seqnames(seq_info))[1]
+  seq_name=base::as.vector(seqnames(seq_info))[1]
   all_what=c("qname","pos","mrnm","mpos","isize","cigar","strand","flag","qwidth")
   all_param=ScanBamParam(flag = scanBamFlag(isDuplicate=F, isNotPassingQualityControls=F),
                             simpleCigar=F, reverseComplement = F, tag = character(0),
@@ -4022,8 +4022,8 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
   #    "min(start(rPbi))=", min(start(rPbi)), "max(end(rPbi))=", max(end(rPbi)), "\n")
   coverage_rle=IRanges::coverage(c(rPc,rMc))
   if(end(winW[n_wins])-length(coverage_rle)>0) # coverage: 0000 t_start ---- t_end 0000, append to length
-    coverage=Rle(c(IRanges::as.vector(coverage_rle),rep(0,end(winW[n_wins])-length(coverage_rle))))
-  cvg_track=IRanges::as.vector(coverage_rle)[start(winW)]
+    coverage=Rle(c(base::as.vector(coverage_rle),rep(0,end(winW[n_wins])-length(coverage_rle))))
+  cvg_track=base::as.vector(coverage_rle)[start(winW)]
   #may slightly over estimate coverage due to random zeros but avoids difficulty handling gaps
   if(verbose) cat("===Info: reliable range=", max(min(start(rPbi)),srange[1]), 
                   min(max(end(rPbi)),end(winW[n_wins])), "\n")
@@ -4131,16 +4131,16 @@ scan_joint<-function(srange, width, lw_width, stepsize, block_size,
     block_Sr_term=lD_omp(block_rSr_winDl,start(block_winW),start(rSr),Fs,block_w_end-block_w_start+1,mixing_rate,q_right,left=TRUE)
     block_Sl_term=lD_omp(block_rSl_winDr,end(block_winW),start(rSl),Fs,block_w_end-block_w_start+1,mixing_rate,q_left,left=FALSE)
     lW_term[block_w_start:block_w_end]=block_lW_term
-    lCd_term[block_w_start:block_w_end]=as.vector(block_Cd_term[["lC_term"]])
-    cCd_term[block_w_start:block_w_end]=as.vector(block_Cd_term[["cC_term"]])
-    lCi_term[block_w_start:block_w_end]=as.vector(block_Ci_term[["lC_term"]])
-    cCi_term[block_w_start:block_w_end]=as.vector(block_Ci_term[["cC_term"]])
-    lDl_term[block_w_start:block_w_end]=as.vector(block_Dl_term[["lD_term"]])
-    cDl_term[block_w_start:block_w_end]=as.vector(block_Dl_term[["cD_term"]])
-    lDr_term[block_w_start:block_w_end]=as.vector(block_Dr_term[["lD_term"]])
-    cDr_term[block_w_start:block_w_end]=as.vector(block_Dr_term[["cD_term"]])
-    lSl_term[block_w_start:block_w_end]=as.vector(block_Sl_term[["lD_term"]])
-    lSr_term[block_w_start:block_w_end]=as.vector(block_Sr_term[["lD_term"]])
+    lCd_term[block_w_start:block_w_end]=base::as.vector(block_Cd_term[["lC_term"]])
+    cCd_term[block_w_start:block_w_end]=base::as.vector(block_Cd_term[["cC_term"]])
+    lCi_term[block_w_start:block_w_end]=base::as.vector(block_Ci_term[["lC_term"]])
+    cCi_term[block_w_start:block_w_end]=base::as.vector(block_Ci_term[["cC_term"]])
+    lDl_term[block_w_start:block_w_end]=base::as.vector(block_Dl_term[["lD_term"]])
+    cDl_term[block_w_start:block_w_end]=base::as.vector(block_Dl_term[["cD_term"]])
+    lDr_term[block_w_start:block_w_end]=base::as.vector(block_Dr_term[["lD_term"]])
+    cDr_term[block_w_start:block_w_end]=base::as.vector(block_Dr_term[["cD_term"]])
+    lSl_term[block_w_start:block_w_end]=base::as.vector(block_Sl_term[["lD_term"]])
+    lSr_term[block_w_start:block_w_end]=base::as.vector(block_Sr_term[["lD_term"]])
   }
 
   if(length(rPbo)!=0){
@@ -4484,10 +4484,10 @@ scan_bam = function(bam_file, what, isize_global, isize_sdR_global, isize_sdL_gl
       t_bigd=data.frame(); t_disc=data.frame()
     } else { #in fixed order
       list[t_result, t_par, t_bigd, t_disc]=do.call(scan_joint, joint_par) #t_anch is determined
-      t_result=cbind(t_result,ins=IRanges::as.vector(IRanges::coverage(rSIa))[t_srange]) #ins
-      t_result=cbind(t_result,del=IRanges::as.vector(IRanges::coverage(rSDa))[t_srange]) #del
-      t_result=cbind(t_result,HAF=IRanges::as.vector(IRanges::coverage(rMHp))[t_srange]) #HAF
-      t_result=cbind(t_result,HAR=IRanges::as.vector(IRanges::coverage(rMHn))[t_srange]) #HAR
+      t_result=cbind(t_result,ins=base::as.vector(IRanges::coverage(rSIa))[t_srange]) #ins
+      t_result=cbind(t_result,del=base::as.vector(IRanges::coverage(rSDa))[t_srange]) #del
+      t_result=cbind(t_result,HAF=base::as.vector(IRanges::coverage(rMHp))[t_srange]) #HAF
+      t_result=cbind(t_result,HAR=base::as.vector(IRanges::coverage(rMHn))[t_srange]) #HAR
     }
     scan_result[t_win_start:t_win_end,]=t_result
     scan_bigd=rbind(scan_bigd,t_bigd)
