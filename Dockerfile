@@ -14,7 +14,7 @@ ENV PATH "PATH=$PATH:$HOME/bin"
 RUN ulimit -s unlimited
 
 ### install swan ###
-RUN cd $HOME/setup && git clone https://bitbucket.org/charade/swan.git
+RUN cd $HOME/setup && git clone https://charade@bitbucket.org/charade/swan.git
 RUN export SWAN_BIN=$HOME/setup/swan/inst && cd $HOME/setup && R CMD INSTALL swan
 
 ### run test scripts ### 
