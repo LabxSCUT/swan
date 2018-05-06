@@ -2,12 +2,12 @@
 myrequire = function(pkg, repo="CRAN", ...){
   cat("requiring package", pkg, "\n")
   tryCatch(suppressMessages(library(pkg,character.only=T)), error=function(e) {
-    print(e)
+    #print(e)
     if(repo!="CRAN"){
       source("http://bioconductor.org/biocLite.R")
-      biocLite(pkg,...)
+      suppressMessages(biocLite(pkg,...))
     } else {
-      install.packages(pkg,repo="http://cran.us.r-project.org",...)
+      suppressMessages(install.packages(pkg,repo="http://cran.us.r-project.org",...))
     }
   })
   tryCatch(suppressMessages(library(pkg,character.only=T)), error=function(e) {
@@ -1630,12 +1630,14 @@ dedup_reg=function(reg_lst,strict=TRUE,limit=1000,biglimit=100000) {
       tmp_todo_chr2=sapply(reg_lst[tmp_todo_idx],"[[","sv_end_chr")
       tmp_todo_end=sapply(reg_lst[tmp_todo_idx],"[[","sv_end")
       watch=FALSE
-      if("22" %in% tmp_todo_chr1 && "22" %in% tmp_todo_chr2 && "bigd" %in% tmp_todo_mtd){
-        print(reg_list[tmp_todo_idx])
-        print(tmp_todo_mtd)
-        cat("bigd=>")
-        watch=TRUE
-      }
+      ### Here is an Ongoing Developing Block ###
+      # if("22" %in% tmp_todo_chr1 && "22" %in% tmp_todo_chr2 && "bigd" %in% tmp_todo_mtd){
+      #   print(reg_lst[tmp_todo_idx])
+      #   print(tmp_todo_mtd)
+      #   cat("bigd=>")
+      #   watch=TRUE
+      # }
+      ### End of The Ongoing Developing Block ###
       #sv_mtd: lcd, ldx, hax, cvg, disc, bigd, sclip, cbs, del, ins
       #sv_type: DEL, INS, INV, DUP, TRP
       done=FALSE
