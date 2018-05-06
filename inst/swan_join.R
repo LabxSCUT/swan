@@ -1,9 +1,8 @@
 #!/usr/bin/env Rscript
 version="REPLACE_WITH_COMMIT_OR_VERSION"
 
-library(swan)
-suppressMessages(for(p in c("digest","plyr","robustbase","optparse")) myrequire(p))
-suppressMessages(for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc"))
+suppressMessages(library(optparse))
+
 #suppressMessages(library(optparse))
 #suppressMessages(library(IRanges))
 #suppressMessages(library(Rsamtools))
@@ -118,6 +117,11 @@ args <- commandArgs(trailingOnly = TRUE)
 cmd = parse_args(parser, args, print_help_and_exit = TRUE, 
                  positional_arguments = TRUE)
 if(length(cmd$args)!=2){ print_help(parser); quit(); }
+
+#starting the real work after checking format
+suppressMessages(library(swan))
+suppressMessages(for(p in c("digest","plyr","robustbase","optparse")) myrequire(p))
+suppressMessages(for(p in c("IRanges","Rsamtools","Biostrings","Biobase")) myrequire(p,repo="Bioc"))
 ref_file=cmd$args[1]
 text_bam=cmd$args[2]
 opt_verbose=cmd$options$noQuiet #set to turn on
@@ -637,7 +641,7 @@ if(verbose) cat("==Info: raw sorted!\n")
 write_com(bed_raw,comment=NULL,filename=paste(out_prefix,".raw.bed",sep=""),gzip=F,sep='\t',quote=F,col.names=F,row.names=F)
 if(savevcf) write_com(vcf_raw,comment=vcf_meta,filename=paste(out_prefix,".raw.vcf",sep=""),gzip=F,sep='\t',quote=F,col.names=F,row.names=F)
 cat("==Info: total ",nrow(bed_raw),"raw calls, ",paste(out_prefix,".raw.bed",sep=""),"written!\n")
-load_opt=list(seqname=seq_name,debug=debug,verbose=verbose) #why this need seqname
+load_opt=list(seqname=seq_name, debug=debug, verbose=verbose) #why this need seqname
 
 cat("-Info: prepared raw calls for confirmation and genotyping\n")
 reg_good=c(reg_sclip,reg_seqcbs_good,reg_del,reg_ins); cat("-Info: directly confirmed REGIONS, total:",length(reg_good),"\n")
