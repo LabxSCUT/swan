@@ -8,14 +8,14 @@ def main():
 	parser.add_argument("-o", dest="outPrefix", default=None, \
 						help="the output prefix, default assume rstrip(callFile,'.txt')")
 	parser.add_argument("-f", "--format", dest="inFormat", default="CN",\
-						help="input file format")
+						help="input file format, either CN (cnvnator), BD (breakdancer), DL (delly), PD (pindel) or LP (Lumpy)")
 	parser.add_argument("-l", "--low", dest="lowBound", default=5, type=int,\
 						help="lower limit of SV size")
 	parser.add_argument("-u", "--up", dest="upBound", default=100000, type=int,\
 						help="up limit of SV size")
 	parser.add_argument("-a", "--adjust", dest="adjust", default=0, type=int,\
 						help="adjust for reference index shift")
-	parser.add_argument("-p", "--pad", dest="pad", default=25, type=int, \
+	parser.add_argument("-p", "--pad", dest="pad", default=10, type=int, \
 						help="add a pad to compensate for break point inaccuracy")
 
 	arg_namespace = parser.parse_args()
@@ -27,6 +27,7 @@ def main():
 	lowBound = vars(arg_namespace)['lowBound']
 	upBound = vars(arg_namespace)['upBound']
 	adjust = vars(arg_namespace)['adjust']
+	pad = vars(arg_namespace)['pad']
 
 	inFile = open(callFile,'rU')
 	inContent = csv.reader(filter(lambda row: row[0]!='#', inFile), delimiter='\t')
@@ -169,8 +170,6 @@ def main():
 				othContent.append(bedRow)
 	elif inFormat == 'LP':
 		for row in inContent:
-			#print row
-			#print len(row)
 			bedRow = ['']*5
 			bedRow[0] = row[0]
 			bedRow[1] = str(int(row[1])-1+adjust) #start
@@ -199,6 +198,94 @@ def main():
 				bedRow[2] = str(int(row[4])-1+adjust)
 				bedRow[3] = 'INV'
 				invContent.append(bedRow) 
+			else:
+				othContent.append(bedRow)
+	elif inFormat == 'SW':
+		for row in inContent:
+			bedRow = ['']*5 #chr, start, end, type, size
+			bedRow[0] = row[0] #chr
+			bedRow[1] = str(int(row[1])-1+adjust) #start
+			bedRow[2] = str(int(bedRow[1]) + 1) #end
+			bedRow[3] = row[5] #type
+			bedRow[4] = "0" # default size for unprocessd
+			if bedRow[3] == 'DEL': #deletion
+				bedRow[4] = str((row[8].split(';')[4]).split('=')[-1]) #size
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				delContent.append(bedRow) 
+			elif bedRow[3] == 'INV':
+				bedRow[4] = str((row[8].split(';')[4]).split('=')[-1]) #size
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				invContent.append(bedRow)
+			elif bedRow[3] == 'DUP':
+                                bedRow[2] = str(int(bedRow[2]) + adjust)
+				bedRow[4] = str(int(bedRow[2]) - int(bedRow[1]) + 1)
+				dupContent.append(bedRow)
+                        elif bedRow[3] == 'INS':
+				bedRow[1] = str(int(bedRow[1]) - pad)
+				bedRow[2] = str(int(bedRow[1]) + pad)
+				bedRow[4] = str(2*pad)
+				insContent.append(bedRow) 
+			else:
+				othContent.append(bedRow)
+	elif inFormat == 'LP-VCF':
+		for row in inContent:
+			bedRow = ['']*5 #chr, start, end, type, size
+			bedRow[0] = row[0] #chr
+			bedRow[1] = str(int(row[1])-1+adjust) #start
+			bedRow[2] = str(int(bedRow[1]) + 1) #end
+			bedRow[3] = (row[7].split(';')[0]).split('=')[-1]  #type
+			bedRow[4] = "0" # default size for unprocessd
+			if bedRow[3] == 'DEL': #deletion
+				bedRow[4] = str(-int((row[7].split(';')[2]).split('=')[-1])) #size
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				delContent.append(bedRow) 
+			elif bedRow[3] == 'INV':
+				bedRow[4] = (row[7].split(';')[2]).split('=')[-1] #size
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				invContent.append(bedRow)
+			elif bedRow[3] == 'BND':
+				bedRow[1] = str(int(bedRow[1]) - pad)
+				bedRow[2] = str(int(bedRow[1]) + pad)
+				bedRow[4] = str(2*pad)
+				bedRow[3] = 'UNK'
+				othContent.append(bedRow) 
+			else:
+				othContent.append(bedRow)
+	elif inFormat == 'MT-VCF': #manta VCF
+		for row in inContent:
+			bedRow = ['']*5 #chr, start, end, type, size
+			#print(row[7])
+			info = dict((k, v) for k,v in ((item.split('=') + [None]*99)[:2] for item in row[7].split(';'))) #hack for unknown count splitting
+			#info = dict((k.strip(), v.strip()) for k,v in 
+      #      (item.split('=') for item in row[7].split(';')))
+			bedRow[0] = row[0] #chr
+			bedRow[1] = str(int(row[1])-1+adjust) #start
+			bedRow[2] = str(int(bedRow[1]) + 1) #end
+			bedRow[3] = info['SVTYPE']
+			bedRow[4] = "0" # default size for unprocessd
+			if bedRow[3] == 'DEL': #deletion
+				bedRow[4] = str(-int(info['SVLEN'])) #size
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				delContent.append(bedRow) 
+			elif bedRow[3] == 'INV':
+				bedRow[4] = info['SVLEN']
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				invContent.append(bedRow)
+			elif bedRow[3] == 'INS':
+				bedRow[1] = str(int(bedRow[1]) - pad)
+				bedRow[2] = str(int(bedRow[1]) + pad)
+				bedRow[4] = str(2*pad)
+				insContent.append(bedRow)
+			elif bedRow[3] == 'DUP':
+				bedRow[4] = info['SVLEN']
+				bedRow[2] = str(int(bedRow[1])+int(bedRow[4])+adjust) #end
+				dupContent.append(bedRow)
+			elif bedRow[3] == 'BND':
+				bedRow[1] = str(int(bedRow[1]) - pad)
+				bedRow[2] = str(int(bedRow[1]) + pad)
+				bedRow[4] = str(2*pad)
+				bedRow[3] = 'UNK'
+				othContent.append(bedRow) 
 			else:
 				othContent.append(bedRow)
 	else:
